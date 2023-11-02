@@ -1,0 +1,158 @@
+package com.univates.screens;
+
+import java.awt.Font;
+import java.awt.event.ActionEvent;
+
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPasswordField;
+import javax.swing.JTextField;
+
+import com.univates.components.KMessage;
+import com.univates.models.Usuario;
+
+public class TelaCadastro extends JFrame
+{
+    private JLabel cadastro = new JLabel("Cadastro");
+    private JLabel aux      = new JLabel("Já possui cadastro? Faça Login!");
+    private JLabel nome     = new JLabel("Nome: ");
+    private JLabel cpf      = new JLabel("CPF: ");
+    private JLabel salario  = new JLabel("Salário: ");
+    private JLabel senha    = new JLabel("Senha: ");
+
+    private JTextField     textoNome    = new JTextField();
+    private JTextField     textoCpf     = new JTextField();
+    private JTextField     textoSalario = new JTextField();
+    private JPasswordField textoSenha   = new JPasswordField();
+
+    private JButton botaoCad = new JButton("Cadastrar"); 
+    private JButton botaoLog = new JButton("Login");
+
+    private Font fonte1 = new Font("Optima", Font.PLAIN, 18);
+    private Font fonte2 = new Font("Optima", Font.BOLD, 23);
+    private Font fonte3 = new Font("Optima", Font.BOLD, 18);
+
+    public TelaCadastro()
+    {
+        setSize(800, 500); 
+        setTitle("Tela de Cadastro"); 
+        setDefaultCloseOperation(EXIT_ON_CLOSE); 
+        setResizable(false);
+        setLocationRelativeTo(null);
+        setLayout(null);
+        
+        this.colocaComponentesNaTela();
+        this.setPosicaoComponentes();
+        this.setFonteComponentes();
+        this.setTamanhoComponentes();        
+
+        botaoCad.addActionListener(this::cadastraNovoUsuario);   
+        botaoLog.addActionListener(this::chamaTelaLogin);  
+    }
+    
+    private void colocaComponentesNaTela() 
+    {
+        add(cadastro);
+        add(aux);
+        add(nome);
+        add(cpf);
+        add(salario);
+        add(senha);
+        add(textoNome);
+        add(textoCpf);
+        add(textoSalario);
+        add(textoSenha);
+        add(botaoCad);
+        add(botaoLog);
+    }
+    
+    private void setPosicaoComponentes() 
+    {
+        cadastro    .setBounds(325, 50, 200, 20); 
+        aux         .setBounds(250, 250, 300, 20); 
+        nome        .setBounds(250, cadastro.getY()+30, 300, 20); 
+        cpf         .setBounds(nome.getX(), nome.getY()+30, 300, 20); 
+        salario     .setBounds(cpf.getX(), cpf.getY()+30, 300, 20); 
+        senha       .setBounds(salario.getX(), salario.getY()+30, 300, 20); 
+        textoNome   .setBounds(315, cadastro.getY()+30, 200, 20);
+        textoCpf    .setBounds(textoNome.getX(), textoNome.getY()+30, 200, 20);
+        textoSalario.setBounds(textoCpf.getX(), textoCpf.getY()+30, 200, 20);
+        textoSenha  .setBounds(textoSalario.getX(), textoSalario.getY()+30, 200, 20);
+        botaoCad    .setBounds(textoSenha.getX(), senha.getY()+30, 200, 20);
+        botaoLog    .setBounds(textoSenha.getX(), aux.getY()+30, 200, 20);
+    }
+
+    private void setFonteComponentes() 
+    {
+        cadastro    .setFont(fonte2);
+        aux         .setFont(fonte3);
+        nome        .setFont(fonte1);
+        cpf         .setFont(fonte1);
+        salario     .setFont(fonte1);
+        senha       .setFont(fonte1);
+        textoNome   .setFont(fonte1);
+        textoCpf    .setFont(fonte1);
+        textoSalario.setFont(fonte1);
+        textoSenha  .setFont(fonte1);
+        botaoCad    .setFont(fonte1);
+        botaoLog    .setFont(fonte1);
+    }
+    
+    private void setTamanhoComponentes() 
+    {
+        cadastro    .setSize( cadastro.getPreferredSize() );
+        aux         .setSize( aux.getPreferredSize() );
+        nome        .setSize( nome.getPreferredSize() );
+        cpf         .setSize( cpf.getPreferredSize() );
+        salario     .setSize( salario.getPreferredSize() );
+        senha       .setSize( senha.getPreferredSize() );
+        textoNome   .setSize( 200, 20 );
+        textoCpf    .setSize( 200, 20 );
+        textoSalario.setSize( 200, 20 );
+        textoSenha  .setSize( 200, 20 );
+        botaoCad    .setSize( botaoCad.getPreferredSize() );
+        botaoLog    .setSize( botaoLog.getPreferredSize() );
+    }
+
+    public JTextField getTextoCpf() 
+    {
+        return textoCpf;
+    }
+
+    public void setTextoCpf( JTextField textoCpf ) 
+    {
+        this.textoCpf = textoCpf;
+    }    
+
+    private void cadastraNovoUsuario ( ActionEvent actionEvent ) 
+    {
+        try
+        {
+            String nome    = textoNome.getText();
+            String cpf     = textoCpf.getText();
+            String senha   = String.valueOf(textoSenha.getPassword());
+            Double salario = Double.parseDouble(textoSalario.getText());
+            
+            Usuario usuario = new Usuario(nome, cpf, senha, salario);
+            
+            usuario.store();
+            
+            KMessage.infoMessage( "Usuario cadastrado com sucesso!" );
+        }
+        catch ( Exception e ) 
+        {
+            e.printStackTrace();
+            KMessage.errorMessage( e.getMessage() );
+        }
+    }
+
+    private void chamaTelaLogin ( ActionEvent actionEvent ) 
+    {
+        TelaLogin tela_login = new TelaLogin();
+        
+        this.dispose();
+        
+        tela_login.setVisible(true);
+    }
+}
