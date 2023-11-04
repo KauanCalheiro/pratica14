@@ -28,6 +28,7 @@ public class TelaLogin extends JFrame
     private JPasswordField textoSenha = new JPasswordField();
 
     private JButton botaoLog = new JButton("Login");
+    private JButton botaoVoltar = new JButton("-");
 
     private Font fonte1 = new Font("Optima", Font.PLAIN, 18);
     private Font fonte2 = new Font("Optima", Font.BOLD, 23);
@@ -48,6 +49,7 @@ public class TelaLogin extends JFrame
         
         textoCpf.setText(tela_cadastro.getTextoCpf().getText());
         botaoLog.addActionListener(this::acaoLogin);
+        botaoVoltar.addActionListener(this::acaoVoltar);
         
         textoCpf.setText("08019505113");
         textoSenha.setText("Kauan123");
@@ -61,26 +63,29 @@ public class TelaLogin extends JFrame
         add(textoCpf);
         add(textoSenha);
         add(botaoLog);
+        add(botaoVoltar);
     }
     
     private void setPosicaoComponentes()
     {
-        login     .setBounds(325, 50, 200, 20); 
-        cpf       .setBounds(250, login.getY()+30, 300, 20); 
-        senha     .setBounds(cpf.getX(), cpf.getY()+30, 300, 20); 
-        textoCpf  .setBounds(315, login.getY()+30, 200, 20);
-        textoSenha.setBounds(textoCpf.getX(), cpf.getY()+30, 200, 20);
-        botaoLog  .setBounds(textoSenha.getX(), cpf.getY()+60, 200, 20);
+        login      .setBounds(325, 50, 200, 20); 
+        cpf        .setBounds(250, login.getY()+30, 300, 20); 
+        senha      .setBounds(cpf.getX(), cpf.getY()+30, 300, 20); 
+        textoCpf   .setBounds(315, login.getY()+30, 200, 20);
+        textoSenha .setBounds(textoCpf.getX(), cpf.getY()+30, 200, 20);
+        botaoLog   .setBounds(textoSenha.getX(), cpf.getY()+60, 200, 20);
+        botaoVoltar.setBounds(555, 300, 200, 20);
     }
     
     private void setFonteComponentes()
     {
-        login     .setFont(fonte2);
-        cpf       .setFont(fonte1);
-        senha     .setFont(fonte1);
-        textoCpf  .setFont(fonte1);
-        textoSenha.setFont(fonte1);
-        botaoLog  .setFont(fonte1);
+        login      .setFont(fonte2);
+        cpf        .setFont(fonte1);
+        senha      .setFont(fonte1);
+        textoCpf   .setFont(fonte1);
+        textoSenha .setFont(fonte1);
+        botaoLog   .setFont(fonte1);
+        botaoVoltar.setFont(fonte2);
     }
 
     private void setTamanhoComponentes() 
@@ -91,6 +96,7 @@ public class TelaLogin extends JFrame
         textoCpf    .setSize( 200, 20 );
         textoSenha  .setSize( 200, 20 );
         botaoLog    .setSize( botaoLog.getPreferredSize() );
+        botaoVoltar .setSize( botaoVoltar.getPreferredSize() );
     }
 
     private void acaoLogin (ActionEvent actionEvent) 
@@ -118,6 +124,15 @@ public class TelaLogin extends JFrame
         {
             KMessage.errorMessage( e.getMessage() );
         }
+    }
+
+    private void acaoVoltar (ActionEvent actionEvent) 
+    {
+        TelaCadastro tc = new TelaCadastro();
+        
+        this.dispose();
+        
+        tc.setVisible(true);
     }
     
     private void encerraAplicacaoSeTentativasExcedidas() 

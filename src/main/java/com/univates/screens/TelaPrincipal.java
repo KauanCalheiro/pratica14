@@ -1,5 +1,7 @@
 package com.univates.screens;
 
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.time.LocalDateTime;
@@ -11,9 +13,12 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JRadioButton;
+import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
+
+//import org.w3c.dom.events.MouseEvent;
 
 import com.univates.components.KMessage;
 import com.univates.models.Transacao;
@@ -23,14 +28,28 @@ import com.univates.services.UsuarioService;
 
 public class TelaPrincipal extends JFrame 
 {
-    private String[]          campos = {"Mês", "Valor"};
-    private Object[][]        dados  = {};
-    private DefaultTableModel modelo = new DefaultTableModel(dados, campos);
+    //nao alterar o que esta escrito nas celulas
+    private DefaultTableModel modelo = new DefaultTableModel(new Object[][] {}, new String[] {"Mês", "Valor"}) {
+        @Override
+        public boolean isCellEditable(int row, int column) {
+            return false;
+        }
+    };
+
+    private DefaultTableModel modelo2 = new DefaultTableModel(new Object[][] {}, new String[] {"Data", "Valor"}) {
+        @Override
+        public boolean isCellEditable(int row, int column) {
+            return false;
+        }
+    };
+    //private String[]          campos = {"Mês", "Valor"};
+    //private Object[][]        dados  = {};
+    //private DefaultTableModel modelo = new DefaultTableModel(dados, campos);
     private JTable            tabela = new JTable(modelo);
     
-    private String[]          campos2 = {"Data", "Valor"};
-    private Object[][]        dados2  = {};
-    private DefaultTableModel modelo2 = new DefaultTableModel( dados2, campos2);
+    //private String[]          campos2 = {"Data", "Valor"};
+    //private Object[][]        dados2  = {};
+    //private DefaultTableModel modelo2 = new DefaultTableModel( dados2, campos2);
     private JTable            tabela2 = new JTable(modelo2);
     
     private JLabel nome      = new JLabel();
@@ -50,6 +69,8 @@ public class TelaPrincipal extends JFrame
     private Font fonte1 = new Font("Optima", Font.PLAIN, 18);
     private Font fonte2 = new Font("Optima", Font.BOLD, 23);
     private Font fonte3 = new Font("Optima", Font.BOLD, 18);
+
+    
 
     Usuario usuario;
 
@@ -71,6 +92,30 @@ public class TelaPrincipal extends JFrame
         radio2.setSelected(true);
         grupo1.add(radio1);
         grupo1.add(radio2);
+
+        //scroll nas tabelas
+        JScrollPane scrollPane2 = new JScrollPane(tabela2);
+        scrollPane2.setBounds(10, historico.getY()+25, 760, 165);
+        add(scrollPane2);
+
+        JScrollPane scrollPane = new JScrollPane(tabela);
+        scrollPane.setBounds(10, resumo.getY()+25, 760, 195);
+        add(scrollPane);
+        
+
+        //abrir outra tela ao clicar no item
+        tabela.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                int row = tabela.getSelectedRow();
+                int column = tabela.getSelectedColumn();
+        
+                if (e.getClickCount() == 2 && row >= 0 && column == 0) {
+                    TelaEdicao te = new TelaEdicao();
+                    te.setVisible(true);
+                }
+            }
+        });
     }
     
         
@@ -101,7 +146,7 @@ public class TelaPrincipal extends JFrame
         tabela    .setBounds(10, resumo.getY()+25, 760, 195);
         botaoConf .setBounds(315, textoValor.getY(), 200, 20);
         radio1    .setBounds(215, 90, 100, 20);
-        radio2    .setBounds(215, 110, 100, 20);
+        radio2    .setBounds(215, 110, 100, 20);  
     }
 
     private void setFonteComponentes() 
