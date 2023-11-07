@@ -67,7 +67,7 @@ public class Model<T>
         }
     }
 
-    public Object getObjetoById( int id )
+    public T getObjetoById( int id )
     {
         String sql = "SELECT * FROM " + this.getEntidade() + " WHERE id = ?";
         
