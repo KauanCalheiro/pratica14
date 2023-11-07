@@ -29,7 +29,6 @@ import com.univates.services.UsuarioService;
 
 public class TelaPrincipal extends JFrame 
 {
-    //nao alterar o que esta escrito nas celulas
     private DefaultTableModel modelo = new DefaultTableModel(new Object[][] {}, new String[] {"Mês", "Valor"}) {
         @Override
         public boolean isCellEditable(int row, int column) {
@@ -43,15 +42,10 @@ public class TelaPrincipal extends JFrame
             return false;
         }
     };
-    //private String[]          campos = {"Mês", "Valor"};
-    //private Object[][]        dados  = {};
-    //private DefaultTableModel modelo = new DefaultTableModel(dados, campos);
-    private JTable            tabela = new JTable(modelo);
+    private JTable tabela  = new JTable(modelo);
+    private JTable tabela2 = new JTable(modelo2);
     
-    //private String[]          campos2 = {"Data", "Valor"};
-    //private Object[][]        dados2  = {};
-    //private DefaultTableModel modelo2 = new DefaultTableModel( dados2, campos2);
-    private JTable            tabela2 = new JTable(modelo2);
+    DateTimeFormatter data_formatada = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
     
     private JLabel nome      = new JLabel();
     private JLabel saldo     = new JLabel("Saldo disponível");
@@ -213,12 +207,11 @@ public class TelaPrincipal extends JFrame
     {
         modelo2.setRowCount(0);
         
-        DateTimeFormatter    data_formatada = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
         ArrayList<Transacao> transacoes     = new Transacao().getTrancoesByRefUsuario( this.usuario.getId() );
 
         for( Transacao transacao : transacoes )
         {
-            String dataFormatada = transacao.getData().toLocalDateTime().format(data_formatada);
+            String dataFormatada = transacao.getData().toLocalDateTime().format(this.data_formatada);
             double valor         = transacao.getValor();
             
             this.modelo2.addRow(new Object[]{ dataFormatada , valor });
@@ -236,7 +229,7 @@ public class TelaPrincipal extends JFrame
         for (Transacao gasto_no_mes : gastos_por_meses) 
         {
             // String mes_ano = gasto_no_mes.getData().getYear() + " - " + gasto_no_mes.getData().getMonth();
-            String mes_ano = gasto_no_mes.getData().toString();
+            String mes_ano = gasto_no_mes.getData().toLocalDateTime().format(DateTimeFormatter.ofPattern("MM/yyyy"));
             double valor   = gasto_no_mes.getValor();
             
             this.modelo.addRow(new Object[]{ mes_ano , valor });
