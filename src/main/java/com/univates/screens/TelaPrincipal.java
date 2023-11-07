@@ -19,10 +19,8 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
-//import org.w3c.dom.events.MouseEvent;
 
 import com.univates.components.KMessage;
-import com.univates.models.Filtro;
 import com.univates.models.Transacao;
 import com.univates.models.Usuario;
 import com.univates.services.TransacaoService;
