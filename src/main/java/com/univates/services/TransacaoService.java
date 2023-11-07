@@ -1,14 +1,16 @@
 package com.univates.services;
 
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.time.YearMonth;
 
 public class TransacaoService 
 {
-    public static int getUltimoDiaDoMes( LocalDateTime data ) 
+    public static int getUltimoDiaDoMes( Timestamp data ) 
     {
-        YearMonth ano_mes           = YearMonth.of(data.getYear(), data.getMonth());
-        int       ultimo_dia_do_mes = ano_mes.lengthOfMonth();
+        LocalDateTime data_local        = data.toLocalDateTime();
+        YearMonth     ano_mes           = YearMonth.of(data_local.getYear(), data_local.getMonth());
+        int           ultimo_dia_do_mes = ano_mes.lengthOfMonth();
         
         return ultimo_dia_do_mes;
     }

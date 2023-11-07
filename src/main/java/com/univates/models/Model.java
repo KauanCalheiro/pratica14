@@ -218,7 +218,7 @@ public class Model<T>
                     objeto.getClass().getDeclaredMethod(setterMethodName, String.class).invoke(objeto, rs.getString(coluna));
                 break;
                 case "timestamp":
-                    objeto.getClass().getDeclaredMethod(setterMethodName, LocalDateTime.class).invoke(objeto, rs.getTimestamp(coluna).toLocalDateTime());
+                    objeto.getClass().getDeclaredMethod(setterMethodName, Timestamp.class).invoke(objeto, rs.getTimestamp(coluna));
                 break;
             }
         }      

@@ -2,6 +2,7 @@ package com.univates.screens;
 
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.sql.Timestamp;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.time.LocalDateTime;
@@ -169,7 +170,7 @@ public class TelaPrincipal extends JFrame
             boolean is_positivo = radio1.isSelected();
             double  valor       = TransacaoService.validaValorEntrada( textoValor.getText(), is_positivo ) ;
             
-            Transacao transacao = new Transacao( valor , LocalDateTime.now() , this.usuario );
+            Transacao transacao = new Transacao( valor , Timestamp.valueOf( LocalDateTime.now()) , this.usuario );
             
             transacao.store();
             
@@ -217,8 +218,7 @@ public class TelaPrincipal extends JFrame
 
         for( Transacao transacao : transacoes )
         {
-            // String dataFormatada = transacao.getData().format(data_formatada);
-            String dataFormatada = transacao.getData().toString();
+            String dataFormatada = transacao.getData().toLocalDateTime().format(data_formatada);
             double valor         = transacao.getValor();
             
             this.modelo2.addRow(new Object[]{ dataFormatada , valor });
