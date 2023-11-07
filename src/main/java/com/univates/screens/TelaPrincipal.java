@@ -28,21 +28,23 @@ import com.univates.services.UsuarioService;
 
 public class TelaPrincipal extends JFrame 
 {
-    private DefaultTableModel modelo = new DefaultTableModel(new Object[][] {}, new String[] {"Mês", "Valor"}) {
+    private DefaultTableModel modelo_tabela_transacoes_por_mes = new DefaultTableModel(new Object[][] {}, new String[] {"Mês", "Valor"}) 
+    {
         @Override
         public boolean isCellEditable(int row, int column) {
             return false;
         }
     };
 
-    private DefaultTableModel modelo2 = new DefaultTableModel(new Object[][] {}, new String[] {"Id", "Data", "Valor"}) {
+    private DefaultTableModel modelo_tabela_ultimas_transacoes = new DefaultTableModel(new Object[][] {}, new String[] {"Id", "Data", "Valor"}) 
+    {
         @Override
         public boolean isCellEditable(int row, int column) {
             return false;
         }
     };
-    private JTable tabela  = new JTable(modelo);
-    private JTable tabela2 = new JTable(modelo2);
+    private JTable tabela_transacoes_por_mes  = new JTable(modelo_tabela_transacoes_por_mes);
+    private JTable tabela_ultimas_transacoes  = new JTable(modelo_tabela_ultimas_transacoes);
     
     DateTimeFormatter data_formatada = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
     
@@ -99,8 +101,8 @@ public class TelaPrincipal extends JFrame
         add(historico);
         add(resumo);
         add(botaoConf);
-        add(tabela2);
-        add(tabela);
+        add(tabela_ultimas_transacoes);
+        add(tabela_transacoes_por_mes);
         add(radio1);
         add(radio2);
     }
@@ -112,12 +114,13 @@ public class TelaPrincipal extends JFrame
         valor     .setBounds(10, saldo.getY()+30, 200, 20);
         textoValor.setBounds(10, valor.getY()+30, 200, 20);
         historico .setBounds(10, textoValor.getY()+40, 200, 20);
-        tabela2   .setBounds(10, historico.getY()+25, 760, 165); 
-        resumo    .setBounds(10, tabela2.getY()+170, 200, 20); 
-        tabela    .setBounds(10, resumo.getY()+25, 760, 195);
+        resumo    .setBounds(10, tabela_ultimas_transacoes.getY()+170, 200, 20); 
         botaoConf .setBounds(315, textoValor.getY(), 200, 20);
         radio1    .setBounds(215, 90, 100, 20);
         radio2    .setBounds(215, 110, 100, 20);  
+        
+        tabela_ultimas_transacoes.setBounds(10, historico.getY()+25, 760, 165); 
+        tabela_transacoes_por_mes.setBounds(10, resumo.getY()+25, 760, 195);
     }
 
     private void setFonteComponentes() 
@@ -181,7 +184,7 @@ public class TelaPrincipal extends JFrame
     
     private void updateTabelaDeTransacoes()
     {
-        modelo2.setRowCount(0);
+        modelo_tabela_ultimas_transacoes.setRowCount(0);
         
         ArrayList<Transacao> transacoes = new Transacao().getTrancoesByRefUsuario( this.usuario.getId() );
 
@@ -191,13 +194,13 @@ public class TelaPrincipal extends JFrame
             double valor         = transacao.getValor();
             int    id            = transacao.getId();
             
-            this.modelo2.addRow(new Object[]{ id, dataFormatada , valor });
+            this.modelo_tabela_ultimas_transacoes.addRow(new Object[]{ id, dataFormatada , valor });
         }
     }
     
     private void updateTabelaDeResumoPorMes()
     {
-        this.modelo.setRowCount(0);
+        this.modelo_tabela_transacoes_por_mes.setRowCount(0);
         
         System.out.println( this.usuario);
         
@@ -208,7 +211,7 @@ public class TelaPrincipal extends JFrame
             String mes_ano = gasto_no_mes.getData().toLocalDateTime().format(DateTimeFormatter.ofPattern("MM/yyyy"));
             double valor   = gasto_no_mes.getValor();
             
-            this.modelo.addRow(new Object[]{ mes_ano , valor });
+            this.modelo_tabela_transacoes_por_mes.addRow(new Object[]{ mes_ano , valor });
         }
     }
     
@@ -220,33 +223,32 @@ public class TelaPrincipal extends JFrame
     
     private void addScrollTabela() 
     {
-        JScrollPane scrollPane = new JScrollPane(tabela);
+        JScrollPane scrollPane = new JScrollPane(tabela_transacoes_por_mes);
         scrollPane.setBounds(10, resumo.getY()+25, 760, 195);
         add(scrollPane);
         
-        JScrollPane scrollPane2 = new JScrollPane(tabela2);
+        JScrollPane scrollPane2 = new JScrollPane(tabela_ultimas_transacoes);
         scrollPane2.setBounds(10, historico.getY()+25, 760, 165);
         add(scrollPane2);
     }
     
     private void chamaTelaEdicaoOnDoubleClickCelula()
     {
-        
-
-        tabela2.addMouseListener(new MouseAdapter() 
+        tabela_ultimas_transacoes.addMouseListener(new MouseAdapter() 
         {
             @Override
             public void mouseClicked(MouseEvent e) 
             {
-                int row    = tabela2.getSelectedRow();
+                int linha  = tabela_ultimas_transacoes.getSelectedRow();
+                int coluna = 0; 
                 
-                if (e.getClickCount() == 2 && row >= 0) 
+                if (e.getClickCount() == 2 && linha >= 0) 
                 {
+                    int        id_transacao = Integer.parseInt( modelo_tabela_ultimas_transacoes.getValueAt(linha, coluna).toString() );
+                    Transacao  transacao    = new Transacao().getObjetoById( id_transacao );
+                    TelaEdicao tela_edicao  = new TelaEdicao( transacao );
                     
-                    Transacao transacao = new Transacao().getObjetoById( Integer.parseInt( modelo2.getValueAt(row, 0).toString() ));
-    
-                    TelaEdicao te = new TelaEdicao( transacao );
-                    te.setVisible(true);
+                    tela_edicao.setVisible(true);
                 }
             }
         });
