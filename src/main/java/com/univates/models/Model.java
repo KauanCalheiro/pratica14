@@ -3,7 +3,6 @@ package com.univates.models;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.sql.*;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 public class Model<T>

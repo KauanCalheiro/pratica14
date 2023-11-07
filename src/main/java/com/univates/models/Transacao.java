@@ -4,8 +4,6 @@ import java.time.LocalDateTime;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 
-import org.postgresql.jdbc.TimestampUtils;
-
 import com.univates.services.TransacaoService;
 
 public class Transacao extends Model<Transacao>
