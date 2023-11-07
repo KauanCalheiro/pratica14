@@ -20,8 +20,21 @@ public class KMessage {
         JOptionPane.showMessageDialog(null, message, "Aviso", JOptionPane.WARNING_MESSAGE);
     }
     
-    public static void questionMessage( String message )
+    public static boolean questionMessage(String message) 
     {
-        JOptionPane.showMessageDialog(null, message, "Pergunta", JOptionPane.QUESTION_MESSAGE);
+        Object[] options = {"Sim", "Não"};
+        
+        int resposta = JOptionPane.showOptionDialog(
+            null,
+            message,
+            "Pergunta",
+            JOptionPane.YES_NO_OPTION,
+            JOptionPane.QUESTION_MESSAGE,
+            null,
+            options,
+            options[0]
+        );
+    
+        return (resposta == JOptionPane.YES_OPTION);
     }
 }
