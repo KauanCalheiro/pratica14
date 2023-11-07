@@ -4,13 +4,15 @@ import java.awt.event.ActionEvent;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 
-public class TelaEdicao extends JFrame {
-    private JButton botaoVoltar = new JButton("-");
+public class TelaEdicao extends JFrame 
+{
+    private JButton botaoVoltar = new JButton("Fechar");
 
-    public TelaEdicao(){
+    public TelaEdicao()
+    {
         setSize(800, 500); 
         setTitle("Tela de Edição"); 
-        setDefaultCloseOperation(EXIT_ON_CLOSE); 
+        setDefaultCloseOperation(DISPOSE_ON_CLOSE); 
         setResizable(false);
         setLocationRelativeTo(null);
         setLayout(null);
@@ -23,11 +25,6 @@ public class TelaEdicao extends JFrame {
 
     private void acaoVoltar (ActionEvent actionEvent) 
     {
-        //ajeitar
-        TelaPrincipal tp = new TelaPrincipal();
-        
         this.dispose();
-        
-        tp.setVisible(true);
     }
 }
