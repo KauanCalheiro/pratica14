@@ -4,11 +4,13 @@ import java.awt.event.ActionEvent;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 
+import com.univates.models.Transacao;
+
 public class TelaEdicao extends JFrame 
 {
     private JButton botaoVoltar = new JButton("Fechar");
 
-    public TelaEdicao()
+    public TelaEdicao( Transacao transacao )
     {
         setSize(800, 500); 
         setTitle("Tela de Edição"); 

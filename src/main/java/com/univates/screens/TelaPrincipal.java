@@ -22,6 +22,7 @@ import javax.swing.table.DefaultTableModel;
 //import org.w3c.dom.events.MouseEvent;
 
 import com.univates.components.KMessage;
+import com.univates.models.Filtro;
 import com.univates.models.Transacao;
 import com.univates.models.Usuario;
 import com.univates.services.TransacaoService;
@@ -36,7 +37,7 @@ public class TelaPrincipal extends JFrame
         }
     };
 
-    private DefaultTableModel modelo2 = new DefaultTableModel(new Object[][] {}, new String[] {"Data", "Valor"}) {
+    private DefaultTableModel modelo2 = new DefaultTableModel(new Object[][] {}, new String[] {"Id", "Data", "Valor"}) {
         @Override
         public boolean isCellEditable(int row, int column) {
             return false;
@@ -81,36 +82,13 @@ public class TelaPrincipal extends JFrame
         this.colocaComponentesNaTela();
         this.setPosicaoComponentes();
         this.setFonteComponentes();
+        this.propriedadesDaTabela();
 
         botaoConf.addActionListener(this::acaoRealizaTransacao);
 
-        radio2.setSelected(true);
+        radio1.setSelected(true);
         grupo1.add(radio1);
         grupo1.add(radio2);
-
-        //scroll nas tabelas
-        JScrollPane scrollPane2 = new JScrollPane(tabela2);
-        scrollPane2.setBounds(10, historico.getY()+25, 760, 165);
-        add(scrollPane2);
-
-        JScrollPane scrollPane = new JScrollPane(tabela);
-        scrollPane.setBounds(10, resumo.getY()+25, 760, 195);
-        add(scrollPane);
-        
-
-        //abrir outra tela ao clicar no item
-        tabela.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                int row = tabela.getSelectedRow();
-                int column = tabela.getSelectedColumn();
-        
-                if (e.getClickCount() == 2 && row >= 0 && column == 0) {
-                    TelaEdicao te = new TelaEdicao();
-                    te.setVisible(true);
-                }
-            }
-        });
     }
     
         
@@ -207,14 +185,15 @@ public class TelaPrincipal extends JFrame
     {
         modelo2.setRowCount(0);
         
-        ArrayList<Transacao> transacoes     = new Transacao().getTrancoesByRefUsuario( this.usuario.getId() );
+        ArrayList<Transacao> transacoes = new Transacao().getTrancoesByRefUsuario( this.usuario.getId() );
 
         for( Transacao transacao : transacoes )
         {
             String dataFormatada = transacao.getData().toLocalDateTime().format(this.data_formatada);
             double valor         = transacao.getValor();
+            int    id            = transacao.getId();
             
-            this.modelo2.addRow(new Object[]{ dataFormatada , valor });
+            this.modelo2.addRow(new Object[]{ id, dataFormatada , valor });
         }
     }
     
@@ -228,11 +207,50 @@ public class TelaPrincipal extends JFrame
 
         for (Transacao gasto_no_mes : gastos_por_meses) 
         {
-            // String mes_ano = gasto_no_mes.getData().getYear() + " - " + gasto_no_mes.getData().getMonth();
             String mes_ano = gasto_no_mes.getData().toLocalDateTime().format(DateTimeFormatter.ofPattern("MM/yyyy"));
             double valor   = gasto_no_mes.getValor();
             
             this.modelo.addRow(new Object[]{ mes_ano , valor });
         }
+    }
+    
+    private void propriedadesDaTabela() 
+    {
+        this.addScrollTabela();
+        this.chamaTelaEdicaoOnDoubleClickCelula();
+    }
+    
+    private void addScrollTabela() 
+    {
+        JScrollPane scrollPane = new JScrollPane(tabela);
+        scrollPane.setBounds(10, resumo.getY()+25, 760, 195);
+        add(scrollPane);
+        
+        JScrollPane scrollPane2 = new JScrollPane(tabela2);
+        scrollPane2.setBounds(10, historico.getY()+25, 760, 165);
+        add(scrollPane2);
+    }
+    
+    private void chamaTelaEdicaoOnDoubleClickCelula()
+    {
+        
+
+        tabela2.addMouseListener(new MouseAdapter() 
+        {
+            @Override
+            public void mouseClicked(MouseEvent e) 
+            {
+                int row    = tabela2.getSelectedRow();
+                
+                if (e.getClickCount() == 2 && row >= 0) 
+                {
+                    
+                    Transacao transacao = new Transacao().getObjetoById( Integer.parseInt( modelo2.getValueAt(row, 0).toString() ));
+    
+                    TelaEdicao te = new TelaEdicao( transacao );
+                    te.setVisible(true);
+                }
+            }
+        });
     }
 }
