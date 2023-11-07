@@ -28,7 +28,7 @@ public class TelaLogin extends JFrame
     private JPasswordField textoSenha = new JPasswordField();
 
     private JButton botaoLog = new JButton("Login");
-    private JButton botaoVoltar = new JButton("-");
+    private JButton botaoVoltar = new JButton("Cadastrar");
 
     private Font fonte1 = new Font("Optima", Font.PLAIN, 18);
     private Font fonte2 = new Font("Optima", Font.BOLD, 23);
@@ -85,7 +85,7 @@ public class TelaLogin extends JFrame
         textoCpf   .setFont(fonte1);
         textoSenha .setFont(fonte1);
         botaoLog   .setFont(fonte1);
-        botaoVoltar.setFont(fonte2);
+        botaoVoltar.setFont(fonte1);
     }
 
     private void setTamanhoComponentes() 
