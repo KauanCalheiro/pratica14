@@ -67,7 +67,7 @@ public class Model<T>
         }
     }
 
-    protected Object getObjetoById( int id )
+    public Object getObjetoById( int id )
     {
         String sql = "SELECT * FROM " + this.getEntidade() + " WHERE id = ?";
         
@@ -90,7 +90,7 @@ public class Model<T>
         }
     }
 
-    protected T getObjecto( ArrayList<Filtro> filtros )
+    public T getObjecto( ArrayList<Filtro> filtros )
     {
         try 
         {            
@@ -102,7 +102,7 @@ public class Model<T>
         }
     }
 
-    protected ArrayList<T> getObjetos( ArrayList<Filtro> filtros )
+    public ArrayList<T> getObjetos( ArrayList<Filtro> filtros )
     {
         String sql = "SELECT * FROM " + this.getEntidade() + " WHERE ";
         
