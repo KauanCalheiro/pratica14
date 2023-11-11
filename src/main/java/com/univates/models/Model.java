@@ -1,9 +1,12 @@
 package com.univates.models;
 
+import java.io.FileInputStream;
+import java.io.InputStream;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.Properties;
 
 public class Model<T>
 {
@@ -381,34 +384,37 @@ public class Model<T>
     
     private void setSelectedDb()
     {
-        switch (Model.selected_db) 
+        String url, user, password;
+        try 
         {
-            case DB_POSTGRES:
-                try 
-                {
+            switch (Model.selected_db) 
+            {
+                case DB_POSTGRES:
+                    Properties  properties     = new Properties();
+                    InputStream arquivo_config = new FileInputStream("src/main/resources/postgres.properties");
+                    
+                    properties.load(arquivo_config);
+                    
                     Class.forName("org.postgresql.Driver");
-                    String url      = "jdbc:postgresql://localhost:5432/postgres";
-                    String user     = "kauan";
-                    String password = "senha";
+                    
+                    url      = "jdbc:postgresql://localhost:5432/postgres";
+                    user     = properties.getProperty("usuario");
+                    password = properties.getProperty("senha");
+                    
                     Model.connection = DriverManager.getConnection(url, user, password);
-                } 
-                catch (Exception e) 
-                {
-                    e.printStackTrace();
-                }
-                return;
-            case DB_SQLITE:
-                try 
-                {
+                break;
+                case DB_SQLITE:
                     Class.forName("org.sqlite.JDBC");
-                    String url      = "jdbc:sqlite:src/main/java/com/univates/archives/db_pratica14.sqlite";
+                    
+                    url = "jdbc:sqlite:src/main/java/com/univates/archives/db_pratica14.sqlite";
+                    
                     Model.connection = DriverManager.getConnection(url);
-                } 
-                catch (Exception e) 
-                {
-                    e.printStackTrace();
-                }
-                return;
+                break;
+            }
+        } 
+        catch (Exception e) 
+        {
+            e.printStackTrace();
         }
     }
 }
