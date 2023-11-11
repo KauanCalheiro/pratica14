@@ -109,18 +109,19 @@ public class TelaPrincipal extends JFrame
     
     private void setPosicaoComponentes() 
     {
-        nome      .setBounds(10, 10, 200, 20); 
-        saldo     .setBounds(10, nome.getY()+40, 200, 20); 
-        valor     .setBounds(10, saldo.getY()+30, 200, 20);
-        textoValor.setBounds(10, valor.getY()+30, 200, 20);
-        historico .setBounds(10, textoValor.getY()+40, 200, 20);
-        resumo    .setBounds(10, tabela_ultimas_transacoes.getY()+170, 200, 20); 
-        botaoConf .setBounds(315, textoValor.getY(), 200, 20);
-        radio1    .setBounds(215, 90, 100, 20);
-        radio2    .setBounds(215, 110, 100, 20);  
         
+        nome                     .setBounds(10, 10, 200, 20); 
+        saldo                    .setBounds(10, nome.getY()+40, 200, 20); 
+        valor                    .setBounds(10, saldo.getY()+30, 200, 20);
+        textoValor               .setBounds(10, valor.getY()+30, 200, 20);
+        historico                .setBounds(10, textoValor.getY()+40, 200, 20);
         tabela_ultimas_transacoes.setBounds(10, historico.getY()+25, 760, 165); 
+        resumo                   .setBounds(10, tabela_ultimas_transacoes.getY()+170, 200, 20); 
         tabela_transacoes_por_mes.setBounds(10, resumo.getY()+25, 760, 195);
+        botaoConf                .setBounds(315, textoValor.getY(), 200, 20);
+        radio1                   .setBounds(215, 90, 100, 20);
+        radio2                   .setBounds(215, 110, 100, 20);  
+        
     }
 
     private void setFonteComponentes() 
