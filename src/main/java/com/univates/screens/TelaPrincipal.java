@@ -220,8 +220,15 @@ public class TelaPrincipal extends JFrame
     {
         this.addScrollTabela();
         this.chamaTelaEdicaoOnDoubleClickCelula();
+        this.bloquearReordenacaoDeColunas();
     }
     
+    private void bloquearReordenacaoDeColunas() 
+    {
+        tabela_ultimas_transacoes.getTableHeader().setReorderingAllowed(false);
+        tabela_transacoes_por_mes.getTableHeader().setReorderingAllowed(false);
+    }
+
     private void addScrollTabela() 
     {
         JScrollPane scrollPane = new JScrollPane(tabela_transacoes_por_mes);
