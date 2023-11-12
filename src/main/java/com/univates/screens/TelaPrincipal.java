@@ -16,9 +16,10 @@ import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.JCheckBox;
 import javax.swing.table.DefaultTableModel;
 
-
+import com.univates.components.KCombo;
 import com.univates.components.KMessage;
 import com.univates.models.Transacao;
 import com.univates.models.Usuario;
@@ -58,6 +59,12 @@ public class TelaPrincipal extends JFrame
     private JRadioButton radio1 = new JRadioButton("Inserir");
     private JRadioButton radio2 = new JRadioButton("Retirar");
     
+    private JCheckBox checkbox_data_manual = new JCheckBox("Colocar data manualmente");
+
+    private KCombo<Integer> input_ano  = new KCombo<>( TransacaoService.getAnosParaCombo(), false );
+    private KCombo<String>  input_mes  = new KCombo<>( TransacaoService.getMesesParaCombo(), false );
+    private KCombo<Integer> input_dia  = new KCombo<>( true );
+    
     private JButton botaoConf = new JButton("Confirma");
 
     private Font fonte1 = new Font("Optima", Font.PLAIN, 18);
@@ -81,6 +88,12 @@ public class TelaPrincipal extends JFrame
         this.propriedadesDaTabela();
 
         botaoConf.addActionListener(this::acaoRealizaTransacao);
+        checkbox_data_manual.addActionListener(this::acaoCheckboxDataManual);
+        input_ano.addActionListener(this::atualizaComboDias);
+        input_mes.addActionListener(this::atualizaComboDias);
+        
+        acaoCheckboxDataManual(null);
+        atualizaComboDias(null);
 
         radio1.setSelected(true);
         grupo1.add(radio1);
@@ -101,11 +114,14 @@ public class TelaPrincipal extends JFrame
         add(tabela_transacoes_por_mes);
         add(radio1);
         add(radio2);
+        add(checkbox_data_manual);
+        add(input_ano);
+        add(input_mes);
+        add(input_dia);
     }
     
     private void setPosicaoComponentes() 
     {
-        
         nome                     .setBounds(10, 10, 200, 20); 
         saldo                    .setBounds(10, nome.getY()+40, 200, 20); 
         valor                    .setBounds(10, saldo.getY()+30, 200, 20);
@@ -116,8 +132,11 @@ public class TelaPrincipal extends JFrame
         tabela_transacoes_por_mes.setBounds(10, resumo.getY()+25, 760, 195);
         botaoConf                .setBounds(315, textoValor.getY(), 200, 20);
         radio1                   .setBounds(215, 90, 100, 20);
-        radio2                   .setBounds(215, 110, 100, 20);  
-        
+        radio2                   .setBounds(215, 110, 100, 20);
+        checkbox_data_manual     .setBounds(215, 130, 200, 20);
+        input_ano                .setBounds(215, 150, 100, 20);
+        input_mes                .setBounds(315, 150, 100, 20);
+        input_dia                .setBounds(415, 150, 100, 20);
     }
 
     private void setFonteComponentes() 
@@ -132,6 +151,32 @@ public class TelaPrincipal extends JFrame
         radio1    .setFont(fonte1);
         radio2    .setFont(fonte1);
     }
+    
+    private void atualizaComboDias (ActionEvent actionEvent) 
+    {
+        input_dia.removeAllItems();
+        
+        int mes = input_mes.getKey();
+        int ano = input_ano.getValue();
+        
+        input_dia.setOptions( TransacaoService.getDiasParaCombo(mes, ano) );
+    }
+    
+    private void acaoCheckboxDataManual ( ActionEvent actionEvent ) 
+    {   
+        if ( checkbox_data_manual.isSelected() ) 
+        {
+            input_ano.setEnabled(true);
+            input_mes.setEnabled(true);
+            input_dia.setEnabled(true);
+        } 
+        else 
+        {
+            input_ano.setEnabled(false);
+            input_mes.setEnabled(false);
+            input_dia.setEnabled(false);
+        }
+    }
 
     private void acaoRealizaTransacao ( ActionEvent actionEvent ) 
     {   
@@ -140,7 +185,11 @@ public class TelaPrincipal extends JFrame
             boolean is_positivo = radio1.isSelected();
             double  valor       = TransacaoService.validaValorEntrada( textoValor.getText(), is_positivo ) ;
             
-            Transacao transacao = new Transacao( valor , Timestamp.valueOf( LocalDateTime.now()) , this.usuario );
+            Timestamp data      = checkbox_data_manual.isSelected() 
+            ? Timestamp.valueOf(LocalDateTime.of( input_ano.getValue(), input_mes.getKey(), input_dia.getValue(), 0, 0 ))
+            : Timestamp.valueOf( LocalDateTime.now());
+            
+            Transacao transacao = new Transacao( valor , data , this.usuario );
             
             transacao.store();
             

@@ -1,6 +1,4 @@
 package com.univates.screens;
-import java.awt.Font;
-import java.awt.Dialog.ModalExclusionType;
 import java.awt.event.ActionEvent;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
@@ -8,7 +6,6 @@ import java.time.LocalDateTime;
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JDialog;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JRadioButton;
 import javax.swing.JTextField;

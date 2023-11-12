@@ -5,8 +5,6 @@ public class Main
 {
     /*
      * TODO:
-     *  DOING - Clicar duas vezes em um item da tabela abre uma janela para editar ou excluir
-     *  DOING - Fazer a tela de edicao
      *  Alterar tamanho da celula da tabela 
      *  Funcao de exportar para planilha
      *  Funcao de importar de planilha    - Talvez nao de tempo
