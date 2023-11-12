@@ -66,31 +66,35 @@ public class Model<T>
         } 
         else 
         {
-            this.atualizarRegistro();
+            this.atualizarRegistro( id );
         }
     }
 
+    public void delete( int id )
+    {
+        String sql = "DELETE FROM " + this.getEntidade() + " WHERE id = ?";
+        
+        try 
+        {
+            PreparedStatement stmt = connection.prepareStatement(sql);
+            
+            stmt.setInt(1, id);
+            stmt.execute();
+            stmt.close();
+        } 
+        catch (SQLException e) 
+        {
+            throw new RuntimeException(e.getMessage());
+        }
+    }
+    
     public T getObjetoById( int id )
     {
-        String sql = "SELECT * FROM " + this.getEntidade() + " WHERE id = ?";
+        ArrayList<Filtro> filtros = new ArrayList<Filtro>();
         
-        try
-        {
-            PreparedStatement prepared_statement = Model.connection.prepareStatement(sql);
-            
-            prepared_statement.setInt(1, id);
-         
-            printQuery(String.valueOf(prepared_statement));
-            
-            ResultSet resultSet = prepared_statement.executeQuery();
-            
-            return this.getObjectsFromResult(resultSet).get(0);
-        }
-        catch (Exception e) 
-        {
-            System.out.println(e.getMessage());
-            return null;
-        }
+        filtros.add( new Filtro("id", "=", String.valueOf(id)) );
+        
+        return this.getObjecto(filtros);
     }
 
     public T getObjecto( ArrayList<Filtro> filtros )
@@ -134,7 +138,7 @@ public class Model<T>
         }
     }
     
-    protected ArrayList<T> getObjetos( ArrayList<Filtro> filtros, String orderBy )
+    public ArrayList<T> getObjetos( ArrayList<Filtro> filtros, String orderBy )
     {
         String sql = "SELECT * FROM " + this.getEntidade() + " WHERE ";
         
@@ -206,6 +210,10 @@ public class Model<T>
                 case "serial":
                 case "bigserial":
                 case "integer":
+                case "smallint":
+                case "bigint":
+                case "int":
+                case "int2":
                     objeto.getClass().getDeclaredMethod(setterMethodName, int.class).invoke(objeto, rs.getInt(coluna));
                 break;
                 case "float4":
@@ -213,10 +221,20 @@ public class Model<T>
                 case "numeric":
                 case "real":
                 case "double precision":
+                case "decimal":
+                case "money":
+                case "float":
+                case "double":
+                case "number":
                     objeto.getClass().getDeclaredMethod(setterMethodName, double.class).invoke(objeto, rs.getDouble(coluna));
                 break;
                 case "varchar":
                 case "text":
+                case "character varying":
+                case "character":
+                case "bpchar":
+                case "char":
+                case "string":
                     objeto.getClass().getDeclaredMethod(setterMethodName, String.class).invoke(objeto, rs.getString(coluna));
                 break;
                 case "timestamp":
@@ -228,10 +246,40 @@ public class Model<T>
         return objeto;
     }
 
-    //TODO: implementar atualizarRegistro()
-    private void atualizarRegistro()
+    private void atualizarRegistro( int id )
     {
-        System.out.println("Atualizando registro");
+        String[] colunas = getColunas().split(", ");
+        String[] placeholders = getPlaceholders(getColunas()).split(", ");
+        
+        // colunas      = java.util.Arrays.copyOfRange(colunas, 1, colunas.length);
+        // placeholders = java.util.Arrays.copyOfRange(placeholders, 1, placeholders.length);
+
+        String sql = "UPDATE " + getEntidade() + " SET ";
+        
+        for (int i = 0; i < colunas.length; i++) 
+        {
+            if (i > 0) 
+            {
+                sql += ", ";
+            }
+            sql += colunas[i] + " = " + placeholders[i];
+        }
+        
+        sql += " WHERE id = " + id;
+        
+        try 
+        {
+            PreparedStatement stmt = connection.prepareStatement(sql);
+            setValores(stmt);
+            printQuery(stmt.toString());
+            stmt.execute();
+            stmt.close();
+        } 
+        catch (SQLException e) 
+        {
+            throw new RuntimeException(e.getMessage());
+        }
+        
     }
 
     private void inserirRegistro() 
@@ -245,8 +293,7 @@ public class Model<T>
         {
             PreparedStatement stmt = connection.prepareStatement(sql);
             setValores(stmt);
-            System.out.println("aqui");
-            System.out.println(stmt);
+            printQuery(stmt.toString());
             stmt.execute();
             stmt.close();
         } 

@@ -3,6 +3,9 @@ package com.univates.services;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.time.YearMonth;
+import java.util.ArrayList;
+
+import com.univates.components.KComboOption;
 
 public class TransacaoService 
 {
@@ -42,4 +45,54 @@ public class TransacaoService
         
         return valor;
     }
+    
+    public static ArrayList<KComboOption<String>> getMesesParaCombo() 
+    {
+        ArrayList<KComboOption<String>> meses = new ArrayList<KComboOption<String>>();
+        
+        meses.add( new KComboOption<>("Janeiro", 1) );
+        meses.add( new KComboOption<>("Fevereiro", 2) );
+        meses.add( new KComboOption<>("Março", 3) );
+        meses.add( new KComboOption<>("Abril", 4) );
+        meses.add( new KComboOption<>("Maio", 5) );
+        meses.add( new KComboOption<>("Junho", 6) );
+        meses.add( new KComboOption<>("Julho", 7) );
+        meses.add( new KComboOption<>("Agosto", 8) );
+        meses.add( new KComboOption<>("Setembro", 9) );
+        meses.add( new KComboOption<>("Outubro", 10) );
+        meses.add( new KComboOption<>("Novembro", 11) );
+        meses.add( new KComboOption<>("Dezembro", 12) );
+        
+        return meses;
+    }
+    
+    public static ArrayList<KComboOption<Integer>> getAnosParaCombo() 
+    {
+        ArrayList<KComboOption<Integer>> anos = new ArrayList<KComboOption<Integer>>();
+        
+        int ano_atual = LocalDateTime.now().getYear();
+        
+        for (int i = ano_atual; i >= ano_atual - 10; i--) 
+        {
+            anos.add( new KComboOption<>( i, i ) );
+        }
+        
+        return anos;
+    }
+    
+    public static ArrayList<KComboOption<Integer>> getDiasParaCombo( int mes, int ano ) 
+    {
+        ArrayList<KComboOption<Integer>> dias = new ArrayList<KComboOption<Integer>>();
+        
+        int ultimo_dia_do_mes = YearMonth.of(ano, mes).lengthOfMonth();
+        
+        for (int i = 1; i <= ultimo_dia_do_mes; i++) 
+        {
+            dias.add( new KComboOption<>( i, i ) );
+        }
+        
+        return dias;
+    }
+    
+
 }

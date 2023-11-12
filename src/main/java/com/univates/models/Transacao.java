@@ -3,6 +3,8 @@ package com.univates.models;
 import java.time.LocalDateTime;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.time.format.DateTimeFormatter;
+
 
 import com.univates.services.TransacaoService;
 
@@ -17,18 +19,18 @@ public class Transacao extends Model<Transacao>
     public Transacao(double valor, Timestamp data, Usuario usuario)
     {
         super();
-        this.id    = super.getNextId();
-        this.valor = valor;
-        this.data  = data;
+        this.id          = super.getNextId();
+        this.valor       = valor;
+        this.data        = data;
         this.ref_usuario = usuario.getId();
     }
     
     public Transacao(double valor, Timestamp data, int ref_usuario)
     {
         super();
-        this.id    = super.getNextId();
-        this.valor = valor;
-        this.data  = data;
+        this.id          = super.getNextId();
+        this.valor       = valor;
+        this.data        = data;
         this.ref_usuario = ref_usuario;
     }
     
@@ -88,9 +90,30 @@ public class Transacao extends Model<Transacao>
         return this.valor;
     }
     
-    public Timestamp getData()
+    public String getData()
     {
-        return this.data;
+        return this.data.toString();
+    }
+    
+    public String getDataFormatada( String formato )
+    {
+        DateTimeFormatter data_formatada = DateTimeFormatter.ofPattern(formato);
+        return this.data.toLocalDateTime().format(data_formatada);
+    }
+  
+    public int getMes()
+    {
+        return this.data.toLocalDateTime().getMonthValue();
+    }
+    
+    public int getAno()
+    {
+        return this.data.toLocalDateTime().getYear();
+    }
+    
+    public int getDia()
+    {
+        return this.data.toLocalDateTime().getDayOfMonth();
     }
     
     public int getRef_usuario()

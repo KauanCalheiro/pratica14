@@ -6,7 +6,6 @@ import java.sql.Timestamp;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 import javax.swing.ButtonGroup;
@@ -46,7 +45,6 @@ public class TelaPrincipal extends JFrame
     private JTable tabela_transacoes_por_mes  = new JTable(modelo_tabela_transacoes_por_mes);
     private JTable tabela_ultimas_transacoes  = new JTable(modelo_tabela_ultimas_transacoes);
     
-    DateTimeFormatter data_formatada = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
     
     private JLabel nome      = new JLabel();
     private JLabel saldo     = new JLabel("Saldo disponível");
@@ -65,8 +63,6 @@ public class TelaPrincipal extends JFrame
     private Font fonte1 = new Font("Optima", Font.PLAIN, 18);
     private Font fonte2 = new Font("Optima", Font.BOLD, 23);
     private Font fonte3 = new Font("Optima", Font.BOLD, 18);
-
-    
 
     Usuario usuario;
 
@@ -191,7 +187,7 @@ public class TelaPrincipal extends JFrame
 
         for( Transacao transacao : transacoes )
         {
-            String dataFormatada = transacao.getData().toLocalDateTime().format(this.data_formatada);
+            String dataFormatada = transacao.getDataFormatada( "dd/MM/yyyy" );
             double valor         = transacao.getValor();
             int    id            = transacao.getId();
             
@@ -203,13 +199,11 @@ public class TelaPrincipal extends JFrame
     {
         this.modelo_tabela_transacoes_por_mes.setRowCount(0);
         
-        System.out.println( this.usuario);
-        
         ArrayList<Transacao> gastos_por_meses = new Transacao().getTransacoesByMesUsuario( this.usuario.getId() );
 
         for (Transacao gasto_no_mes : gastos_por_meses) 
         {
-            String mes_ano = gasto_no_mes.getData().toLocalDateTime().format(DateTimeFormatter.ofPattern("MM/yyyy"));
+            String mes_ano = gasto_no_mes.getDataFormatada("MM/yyyy");
             double valor   = gasto_no_mes.getValor();
             
             this.modelo_tabela_transacoes_por_mes.addRow(new Object[]{ mes_ano , valor });
@@ -254,9 +248,20 @@ public class TelaPrincipal extends JFrame
                 {
                     int        id_transacao = Integer.parseInt( modelo_tabela_ultimas_transacoes.getValueAt(linha, coluna).toString() );
                     Transacao  transacao    = new Transacao().getObjetoById( id_transacao );
+                    
+                    System.out.println(transacao.toString());
                     TelaEdicao tela_edicao  = new TelaEdicao( transacao );
                     
                     tela_edicao.setVisible(true);
+                    
+                    tela_edicao.addWindowListener(new java.awt.event.WindowAdapter() 
+                    {
+                        @Override
+                        public void windowClosed(java.awt.event.WindowEvent windowEvent) 
+                        {
+                            updateFields();
+                        }
+                    });
                 }
             }
         });
