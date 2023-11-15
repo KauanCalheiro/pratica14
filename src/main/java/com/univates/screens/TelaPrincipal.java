@@ -264,6 +264,10 @@ public class TelaPrincipal extends JFrame
         this.addScrollTabela();
         this.chamaTelaEdicaoOnDoubleClickCelula();
         this.bloquearReordenacaoDeColunas();
+
+        tabela_ultimas_transacoes.getColumnModel().getColumn(0).setPreferredWidth(50);
+        tabela_ultimas_transacoes.getColumnModel().getColumn(1).setPreferredWidth(120);
+        tabela_ultimas_transacoes.getColumnModel().getColumn(2).setPreferredWidth(280);
     }
     
     private void bloquearReordenacaoDeColunas() 
@@ -297,8 +301,6 @@ public class TelaPrincipal extends JFrame
                 {
                     int        id_transacao = Integer.parseInt( modelo_tabela_ultimas_transacoes.getValueAt(linha, coluna).toString() );
                     Transacao  transacao    = new Transacao().getObjetoById( id_transacao );
-                    
-                    System.out.println(transacao.toString());
                     TelaEdicao tela_edicao  = new TelaEdicao( transacao );
                     
                     tela_edicao.setVisible(true);
