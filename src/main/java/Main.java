@@ -1,4 +1,4 @@
-import com.univates.models.Model;
+import com.univates.models.Dao;
 import com.univates.screens.TelaCadastro;
 
 public class Main 
@@ -12,12 +12,12 @@ public class Main
      */
     public static void main(String[] args) throws Exception 
     {
-        Model.setShowSql(true);
-        Model.setDb(Model.DB_SQLITE);
+        Dao.setShowSql(true);
+        Dao.setDb(Dao.DB_SQLITE);
         
         TelaCadastro telaCadastro = new TelaCadastro();
         telaCadastro.setVisible(true);  
         
-        Model.fecharConexao();
+        Dao.closeConnection();
     }
 }

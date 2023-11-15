@@ -51,6 +51,10 @@ public class Filtro
             case "is not false":
                 this.valor = "";
             return;
+
+            case "order by":
+                this.coluna = "";
+            return;
             
             default:
                 this.valor = "'" + this.valor + "'";

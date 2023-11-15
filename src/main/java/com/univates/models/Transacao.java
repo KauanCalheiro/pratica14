@@ -116,7 +116,7 @@ public class Transacao extends Model<Transacao>
         return this.data.toLocalDateTime().getDayOfMonth();
     }
     
-    public int getRef_usuario()
+    public int getRefUsuario()
     {
         return this.ref_usuario;
     }
@@ -136,8 +136,7 @@ public class Transacao extends Model<Transacao>
         this.data = data;
     }
     
-    //TODO: ajustar para ajustar o nome do metodo
-    public void setRef_usuario( int ref_usuario )
+    public void setRefUsuario( int ref_usuario )
     {
         this.ref_usuario = ref_usuario;
     }
