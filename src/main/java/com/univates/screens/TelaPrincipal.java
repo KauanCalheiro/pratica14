@@ -3,6 +3,7 @@ package com.univates.screens;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.sql.Timestamp;
+import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.time.LocalDateTime;
@@ -16,8 +17,11 @@ import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.border.LineBorder;
 import javax.swing.JCheckBox;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.JTableHeader;
 
 import com.univates.components.KCombo;
 import com.univates.components.KMessage;
@@ -46,12 +50,12 @@ public class TelaPrincipal extends JFrame
     private JTable tabela_transacoes_por_mes  = new JTable(modelo_tabela_transacoes_por_mes);
     private JTable tabela_ultimas_transacoes  = new JTable(modelo_tabela_ultimas_transacoes);
     
-    
+
     private JLabel nome      = new JLabel();
     private JLabel saldo     = new JLabel("Saldo disponível");
     private JLabel valor     = new JLabel();
     private JLabel historico = new JLabel("Histórico");
-    private JLabel resumo    = new JLabel("Resumo dos meses");
+    private JLabel resumo    = new JLabel("Movimentação nos meses");
     
     private JTextField textoValor = new JTextField();
     
@@ -67,15 +71,20 @@ public class TelaPrincipal extends JFrame
     
     private JButton botaoConf = new JButton("Confirma");
 
-    private Font fonte1 = new Font("Optima", Font.PLAIN, 18);
-    private Font fonte2 = new Font("Optima", Font.BOLD, 23);
-    private Font fonte3 = new Font("Optima", Font.BOLD, 18);
+    private Font fonte1 = new Font("Serif", Font.PLAIN, 18);
+    private Font fonte2 = new Font("Serif", Font.BOLD, 23);
+    private Font fonte3 = new Font("Serif", Font.BOLD, 18);
+
+    private Color cor1 = new Color(255, 245, 232); //bege claro
+    private Color cor2 = new Color(109, 73, 37); //marrom
+    private Color cor3 = new Color(135, 102, 69); //bege escuro
 
     Usuario usuario;
 
     public TelaPrincipal()
     {
-        setSize(800, 610); 
+        setSize(800, 720); 
+        getContentPane().setBackground(cor1);
         setTitle("Tela"); 
         setDefaultCloseOperation(EXIT_ON_CLOSE); 
         setResizable(false);
@@ -86,6 +95,7 @@ public class TelaPrincipal extends JFrame
         this.setPosicaoComponentes();
         this.setFonteComponentes();
         this.propriedadesDaTabela();
+        this.setCorComponentes();
 
         botaoConf.addActionListener(this::acaoRealizaTransacao);
         checkbox_data_manual.addActionListener(this::acaoCheckboxDataManual);
@@ -127,13 +137,13 @@ public class TelaPrincipal extends JFrame
         valor                    .setBounds(10, saldo.getY()+30, 200, 20);
         textoValor               .setBounds(10, valor.getY()+30, 200, 20);
         historico                .setBounds(10, textoValor.getY()+40, 200, 20);
-        tabela_ultimas_transacoes.setBounds(10, historico.getY()+25, 760, 165); 
-        resumo                   .setBounds(10, tabela_ultimas_transacoes.getY()+170, 200, 20); 
-        tabela_transacoes_por_mes.setBounds(10, resumo.getY()+25, 760, 195);
+        tabela_ultimas_transacoes.setBounds(10, historico.getY()+25, 500, 165); 
+        resumo                   .setBounds(10, tabela_ultimas_transacoes.getY()+260, 200, 20); 
+        tabela_transacoes_por_mes.setBounds(10, resumo.getY()+25, 500, 195);
         botaoConf                .setBounds(315, textoValor.getY(), 200, 20);
         radio1                   .setBounds(215, 90, 100, 20);
         radio2                   .setBounds(215, 110, 100, 20);
-        checkbox_data_manual     .setBounds(215, 130, 200, 20);
+        checkbox_data_manual     .setBounds(215, 130, 300, 20);
         input_ano                .setBounds(215, 150, 100, 20);
         input_mes                .setBounds(315, 150, 100, 20);
         input_dia                .setBounds(415, 150, 100, 20);
@@ -141,15 +151,61 @@ public class TelaPrincipal extends JFrame
 
     private void setFonteComponentes() 
     {
-        nome      .setFont(fonte2);
-        saldo     .setFont(fonte3);
-        textoValor.setFont(fonte1);
-        valor     .setFont(fonte1);
-        historico .setFont(fonte1);
-        resumo    .setFont(fonte1);
-        botaoConf .setFont(fonte1);
-        radio1    .setFont(fonte1);
-        radio2    .setFont(fonte1);
+        nome                     .setFont(fonte2);
+        saldo                    .setFont(fonte3);
+        textoValor               .setFont(fonte1);
+        valor                    .setFont(fonte1);
+        historico                .setFont(fonte1);
+        resumo                   .setFont(fonte1);
+        botaoConf                .setFont(fonte1);
+        radio1                   .setFont(fonte1);
+        radio2                   .setFont(fonte1);
+        checkbox_data_manual     .setFont(fonte1);
+        tabela_ultimas_transacoes.setFont(fonte1);
+        tabela_transacoes_por_mes.setFont(fonte1);
+        input_ano                .setFont(fonte1);
+        input_mes                .setFont(fonte1);
+        input_dia                .setFont(fonte1);
+    }
+
+    private void setCorComponentes() 
+    {
+        nome                     .setForeground(cor2);
+        saldo                    .setForeground(cor2);
+        textoValor               .setForeground(cor2);
+        textoValor               .setBackground(cor1);
+        textoValor               .setBorder(new LineBorder(cor2, 2));
+        valor                    .setForeground(cor2);
+        historico                .setForeground(cor2);
+        resumo                   .setForeground(cor2);
+        botaoConf                .setForeground(cor1);
+        botaoConf                .setBackground(cor2);
+        botaoConf                .setBorder(new LineBorder(cor2, 2));
+        radio1                   .setForeground(cor2);
+        radio1                   .setBackground(cor1);
+        radio2                   .setForeground(cor2);
+        radio2                   .setBackground(cor1);
+        checkbox_data_manual     .setForeground(cor2);
+        checkbox_data_manual     .setBackground(cor1);
+        tabela_ultimas_transacoes.setForeground(cor2);
+        tabela_ultimas_transacoes.setBackground(cor1);
+        tabela_ultimas_transacoes.setSelectionBackground(cor3);
+        tabela_ultimas_transacoes.setGridColor(cor3);
+        tabela_ultimas_transacoes.setBorder(new LineBorder(cor2, 2));
+        tabela_transacoes_por_mes.setForeground(cor2);
+        tabela_transacoes_por_mes.setBackground(cor1);
+        tabela_transacoes_por_mes.setSelectionBackground(cor3);
+        tabela_transacoes_por_mes.setGridColor(cor3);
+        tabela_transacoes_por_mes.setBorder(new LineBorder(cor2, 2));
+        input_ano                .setForeground(cor2);
+        input_ano                .setBackground(cor1);
+        input_ano                .setBorder(new LineBorder(cor2, 2));
+        input_mes                .setForeground(cor2);
+        input_mes                .setBackground(cor1);
+        input_mes                .setBorder(new LineBorder(cor2, 2));
+        input_dia                .setForeground(cor2);
+        input_dia                .setBackground(cor1);
+        input_dia                .setBorder(new LineBorder(cor2, 2));
     }
     
     private void atualizaComboDias (ActionEvent actionEvent) 
@@ -278,12 +334,18 @@ public class TelaPrincipal extends JFrame
 
     private void addScrollTabela() 
     {
-        JScrollPane scrollPane = new JScrollPane(tabela_transacoes_por_mes);
-        scrollPane.setBounds(10, resumo.getY()+25, 760, 195);
-        add(scrollPane);
+        JTableHeader header = tabela_ultimas_transacoes.getTableHeader();
+        header.setBackground(cor1);
+        header.setForeground(cor2);
+        header.setFont(fonte3);
+        header.setBorder(new LineBorder(cor2, 2));
+
         
         JScrollPane scrollPane2 = new JScrollPane(tabela_ultimas_transacoes);
         scrollPane2.setBounds(10, historico.getY()+25, 760, 165);
+        scrollPane2.setBackground(cor2);
+        scrollPane2.setBorder(new LineBorder(cor2, 2));
+        scrollPane2.getViewport().setBackground(cor1);
         add(scrollPane2);
     }
     
