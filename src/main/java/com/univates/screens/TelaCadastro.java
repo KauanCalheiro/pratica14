@@ -41,7 +41,7 @@ public class TelaCadastro extends JFrame
 
     public TelaCadastro()
     {
-        setSize(800, 500); 
+        setSize(600, 450); 
         getContentPane().setBackground(cor1);
         setTitle("Tela de Cadastro"); 
         setDefaultCloseOperation(EXIT_ON_CLOSE); 
@@ -77,13 +77,13 @@ public class TelaCadastro extends JFrame
     
     private void setPosicaoComponentes() 
     {
-        cadastro    .setBounds(315, 40, 200, 20); 
-        aux         .setBounds(250, 260, 300, 20); 
-        nome        .setBounds(250, cadastro.getY()+40, 300, 20); 
+        cadastro    .setBounds(215, 40, 200, 20); 
+        aux         .setBounds(150, 260, 300, 20); 
+        nome        .setBounds(150, cadastro.getY()+40, 300, 20); 
         cpf         .setBounds(nome.getX(), nome.getY()+30, 300, 20); 
         salario     .setBounds(cpf.getX(), cpf.getY()+30, 300, 20); 
         senha       .setBounds(salario.getX(), salario.getY()+30, 300, 20); 
-        textoNome   .setBounds(315, cadastro.getY()+45, 200, 20);
+        textoNome   .setBounds(215, cadastro.getY()+45, 200, 20);
         textoCpf    .setBounds(textoNome.getX(), textoNome.getY()+30, 200, 20);
         textoSalario.setBounds(textoCpf.getX(), textoCpf.getY()+30, 200, 20);
         textoSenha  .setBounds(textoSalario.getX(), textoSalario.getY()+30, 200, 20);

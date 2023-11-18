@@ -1,4 +1,6 @@
 package com.univates.screens;
+import java.awt.Color;
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
@@ -9,6 +11,7 @@ import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JRadioButton;
 import javax.swing.JTextField;
+import javax.swing.border.LineBorder;
 
 import com.univates.components.KCombo;
 import com.univates.components.KMessage;
@@ -35,6 +38,12 @@ public class TelaEdicao extends JDialog
     private ButtonGroup  grupo1 = new ButtonGroup();
     private JRadioButton radio1 = new JRadioButton("Inserir");
     private JRadioButton radio2 = new JRadioButton("Retirar");
+
+    private Font fonte1 = new Font("Serif", Font.PLAIN, 18);
+    private Font fonte2 = new Font("Serif", Font.BOLD, 18);
+
+    private Color cor1 = new Color(255, 245, 232); //bege claro
+    private Color cor2 = new Color(109, 73, 37); //marrom
     
     private Transacao transacao;
     
@@ -42,7 +51,8 @@ public class TelaEdicao extends JDialog
     {
         System.out.println(transacao.toString());
 
-        setSize(800, 500); 
+        setSize(450, 300); 
+        getContentPane().setBackground(cor1);
         setTitle("Tela de Edição"); 
         setDefaultCloseOperation(DISPOSE_ON_CLOSE); 
         setResizable(false);
@@ -59,6 +69,8 @@ public class TelaEdicao extends JDialog
         this.setPosicaoComponentes();
         this.updateComponents();
         this.setTamanhoComponentes();
+        this.setCorCoponentes();
+        this.setFonteComponentes();
         
         botao_voltar.addActionListener(this::acaoVoltar);
         botao_editar.addActionListener(this::acaoEditar);
@@ -73,9 +85,6 @@ public class TelaEdicao extends JDialog
         botao_voltar .setSize( botao_voltar.getPreferredSize() );
         botao_editar .setSize( botao_editar.getPreferredSize() );
         botao_excluir.setSize( botao_excluir.getPreferredSize() );
-        label_ano    .setSize( label_ano.getPreferredSize() );
-        label_valor  .setSize( label_valor.getPreferredSize() );
-        input_valor  .setSize( 500, 20 );
     }
 
     private void updateComponents() 
@@ -115,19 +124,69 @@ public class TelaEdicao extends JDialog
     
     private void setPosicaoComponentes() 
     {
-        label_valor  .setBounds(10, 10, 200, 20);
-        input_valor  .setBounds(10, 30, 200, 20);
-        label_ano    .setBounds(10, 60, 200, 20);
-        input_ano    .setBounds(10, 80, 200, 20);
-        label_mes    .setBounds(10, 110, 200, 20);
-        input_mes    .setBounds(10, 130, 200, 20);
-        label_dia    .setBounds(10, 160, 200, 20);
-        input_dia    .setBounds(10, 180, 200, 20);
-        radio1       .setBounds(10, 210, 100, 20);
-        radio2       .setBounds(10, 230, 100, 20);
-        botao_editar .setBounds(10, 260, 200, 20);
-        botao_excluir.setBounds(10, 290, 200, 20);
-        botao_voltar .setBounds(10, 320, 200, 20);
+        label_valor  .setBounds(10, 10, 200, 25);
+        input_valor  .setBounds(10, 35, 200, 25);
+        label_ano    .setBounds(10, 60, 200, 25);
+        input_ano    .setBounds(10, 85, 200, 25);
+        label_mes    .setBounds(10, 110, 200, 25);
+        input_mes    .setBounds(10, 135, 200, 25);
+        label_dia    .setBounds(10, 160, 200, 25);
+        input_dia    .setBounds(10, 185, 200, 25);
+        radio1       .setBounds(320, 35, 90, 25);
+        radio2       .setBounds(230, 35, 90, 25);
+        botao_editar .setBounds(320, 110, 200, 25);
+        botao_excluir.setBounds(320, 145, 200, 25);
+        botao_voltar .setBounds(320, 185, 200, 25);
+    }
+
+    private void setFonteComponentes() 
+    {
+        label_valor  .setFont(fonte2);
+        input_valor  .setFont(fonte1);
+        label_ano    .setFont(fonte2);
+        input_ano    .setFont(fonte1);
+        label_mes    .setFont(fonte2);
+        input_mes    .setFont(fonte1);
+        label_dia    .setFont(fonte2);
+        input_dia    .setFont(fonte1);
+        radio1       .setFont(fonte1);
+        radio2       .setFont(fonte1);
+        botao_editar .setFont(fonte1);
+        botao_excluir.setFont(fonte1);
+        botao_voltar .setFont(fonte1);
+    }
+    
+    private void setCorCoponentes() 
+    {
+        label_valor  .setForeground(cor2);
+        input_valor  .setForeground(cor2);
+        input_valor  .setBackground(cor1);
+        input_valor  .setBorder(new LineBorder(cor2, 2));
+        label_ano    .setForeground(cor2);
+        input_ano    .setForeground(cor2);
+        input_ano    .setBackground(cor1);
+        input_ano    .setBorder(new LineBorder(cor2, 2));
+        label_mes    .setForeground(cor2);
+        input_mes    .setForeground(cor2);
+        input_mes    .setBackground(cor1);
+        input_mes    .setBorder(new LineBorder(cor2, 2));
+        label_dia    .setForeground(cor2);
+        input_dia    .setForeground(cor2);
+        input_dia    .setBackground(cor1);
+        input_dia    .setBorder(new LineBorder(cor2, 2));
+        radio1       .setForeground(cor2);
+        radio1       .setBackground(cor1);
+        radio2       .setForeground(cor2);
+        radio2       .setBackground(cor1);
+        botao_editar .setForeground(cor2);
+        botao_editar .setBackground(cor1);
+        botao_editar .setBorder(new LineBorder(cor2, 2));
+        botao_excluir.setForeground(cor2);
+        botao_excluir.setBackground(cor1);
+        botao_excluir.setBorder(new LineBorder(cor2, 2));
+        botao_voltar .setForeground(cor2);
+        botao_voltar .setBackground(cor1);
+        botao_voltar .setBorder(new LineBorder(cor2, 2));
     }
     
     private void acaoVoltar (ActionEvent actionEvent) 

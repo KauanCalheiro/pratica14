@@ -41,7 +41,7 @@ public class TelaLogin extends JFrame
 
     public TelaLogin()
     {
-        setSize(800, 500); 
+        setSize(600, 450); 
         getContentPane().setBackground(cor1);
         setTitle("Tela de Login"); 
         setDefaultCloseOperation(EXIT_ON_CLOSE); 
@@ -76,13 +76,13 @@ public class TelaLogin extends JFrame
     
     private void setPosicaoComponentes()
     {
-        login      .setBounds(315, 40, 200, 20); 
-        cpf        .setBounds(250, login.getY()+40, 300, 20); 
+        login      .setBounds(215, 40, 200, 20); 
+        cpf        .setBounds(150, login.getY()+40, 300, 20); 
         senha      .setBounds(cpf.getX(), cpf.getY()+25, 300, 20); 
-        textoCpf   .setBounds(315, login.getY()+45, 200, 20);
+        textoCpf   .setBounds(215, login.getY()+45, 200, 20);
         textoSenha .setBounds(textoCpf.getX(), cpf.getY()+30, 200, 20);
         botaoLog   .setBounds(textoSenha.getX(), cpf.getY()+60, 200, 20);
-        botaoVoltar.setBounds(555, 300, 200, 20);
+        botaoVoltar.setBounds(455, 300, 200, 20);
     }
     
     private void setFonteComponentes()

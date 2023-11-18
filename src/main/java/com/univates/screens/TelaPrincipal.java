@@ -17,6 +17,7 @@ import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.SwingConstants;
 import javax.swing.border.LineBorder;
 import javax.swing.JCheckBox;
 import javax.swing.table.DefaultTableCellRenderer;
@@ -72,8 +73,8 @@ public class TelaPrincipal extends JFrame
     private JButton botaoConf = new JButton("Confirma");
 
     private Font fonte1 = new Font("Serif", Font.PLAIN, 18);
-    private Font fonte2 = new Font("Serif", Font.BOLD, 23);
-    private Font fonte3 = new Font("Serif", Font.BOLD, 18);
+    private Font fonte2 = new Font("Serif", Font.BOLD, 25);
+    private Font fonte3 = new Font("Serif", Font.BOLD, 20);
 
     private Color cor1 = new Color(255, 245, 232); //bege claro
     private Color cor2 = new Color(109, 73, 37); //marrom
@@ -83,7 +84,7 @@ public class TelaPrincipal extends JFrame
 
     public TelaPrincipal()
     {
-        setSize(800, 720); 
+        setSize(620, 680); 
         getContentPane().setBackground(cor1);
         setTitle("Tela"); 
         setDefaultCloseOperation(EXIT_ON_CLOSE); 
@@ -134,29 +135,29 @@ public class TelaPrincipal extends JFrame
     {
         nome                     .setBounds(10, 10, 200, 20); 
         saldo                    .setBounds(10, nome.getY()+40, 200, 20); 
-        valor                    .setBounds(10, saldo.getY()+30, 200, 20);
+        valor                    .setBounds(10, saldo.getY()+25, 200, 20);
         textoValor               .setBounds(10, valor.getY()+30, 200, 20);
-        historico                .setBounds(10, textoValor.getY()+40, 200, 20);
-        tabela_ultimas_transacoes.setBounds(10, historico.getY()+25, 500, 165); 
-        resumo                   .setBounds(10, tabela_ultimas_transacoes.getY()+260, 200, 20); 
-        tabela_transacoes_por_mes.setBounds(10, resumo.getY()+25, 500, 195);
-        botaoConf                .setBounds(315, textoValor.getY(), 200, 20);
-        radio1                   .setBounds(215, 90, 100, 20);
-        radio2                   .setBounds(215, 110, 100, 20);
-        checkbox_data_manual     .setBounds(215, 130, 300, 20);
-        input_ano                .setBounds(215, 150, 100, 20);
-        input_mes                .setBounds(315, 150, 100, 20);
-        input_dia                .setBounds(415, 150, 100, 20);
+        historico                .setBounds(10, textoValor.getY()+95, 200, 20);
+        tabela_ultimas_transacoes.setBounds(10, historico.getY()+25, 580, 165); 
+        resumo                   .setBounds(10, tabela_ultimas_transacoes.getY()+180, 300, 20); 
+        tabela_transacoes_por_mes.setBounds(10, resumo.getY()+25, 580, 195);
+        botaoConf                .setBounds(10, textoValor.getY()+50, 200, 25);
+        radio1                   .setBounds(10, textoValor.getY()+25, 90, 20);
+        radio2                   .setBounds(100, textoValor.getY()+25, 90, 20);
+        checkbox_data_manual     .setBounds(320, textoValor.getY()+25, 300, 20);
+        input_ano                .setBounds(280, textoValor.getY()+50, 100, 25);
+        input_mes                .setBounds(380, textoValor.getY()+50, 100, 25);
+        input_dia                .setBounds(480, textoValor.getY()+50, 100, 25);
     }
 
     private void setFonteComponentes() 
     {
         nome                     .setFont(fonte2);
-        saldo                    .setFont(fonte3);
+        saldo                    .setFont(fonte1);
         textoValor               .setFont(fonte1);
-        valor                    .setFont(fonte1);
-        historico                .setFont(fonte1);
-        resumo                   .setFont(fonte1);
+        valor                    .setFont(fonte3);
+        historico                .setFont(fonte3);
+        resumo                   .setFont(fonte3);
         botaoConf                .setFont(fonte1);
         radio1                   .setFont(fonte1);
         radio2                   .setFont(fonte1);
@@ -321,9 +322,20 @@ public class TelaPrincipal extends JFrame
         this.chamaTelaEdicaoOnDoubleClickCelula();
         this.bloquearReordenacaoDeColunas();
 
-        tabela_ultimas_transacoes.getColumnModel().getColumn(0).setPreferredWidth(50);
+        tabela_ultimas_transacoes.getColumnModel().getColumn(0).setPreferredWidth(70);
         tabela_ultimas_transacoes.getColumnModel().getColumn(1).setPreferredWidth(120);
-        tabela_ultimas_transacoes.getColumnModel().getColumn(2).setPreferredWidth(280);
+        tabela_ultimas_transacoes.getColumnModel().getColumn(2).setPreferredWidth(160);
+
+        DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+        centerRenderer.setHorizontalAlignment(SwingConstants.CENTER);
+
+        for (int i = 0; i < tabela_ultimas_transacoes.getColumnCount(); i++) {
+            tabela_ultimas_transacoes.getColumnModel().getColumn(i).setCellRenderer(centerRenderer);
+        }
+
+        for (int i = 0; i < tabela_transacoes_por_mes.getColumnCount(); i++) {
+            tabela_transacoes_por_mes.getColumnModel().getColumn(i).setCellRenderer(centerRenderer);
+        }
     }
     
     private void bloquearReordenacaoDeColunas() 
@@ -340,9 +352,8 @@ public class TelaPrincipal extends JFrame
         header.setFont(fonte3);
         header.setBorder(new LineBorder(cor2, 2));
 
-        
         JScrollPane scrollPane2 = new JScrollPane(tabela_ultimas_transacoes);
-        scrollPane2.setBounds(10, historico.getY()+25, 760, 165);
+        scrollPane2.setBounds(10, historico.getY()+25, 580, 165);
         scrollPane2.setBackground(cor2);
         scrollPane2.setBorder(new LineBorder(cor2, 2));
         scrollPane2.getViewport().setBackground(cor1);
