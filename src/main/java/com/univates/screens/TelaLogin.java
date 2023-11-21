@@ -32,12 +32,12 @@ public class TelaLogin extends JFrame
     private JButton botaoLog = new JButton("Login");
     private JButton botaoVoltar = new JButton("Cadastrar");
 
-    private Font fonte1 = new Font("Serif", Font.PLAIN, 18);
-    private Font fonte2 = new Font("Serif", Font.BOLD, 27);
+    private Font fonte1 = new Font("Arial", Font.PLAIN, 18);
+    private Font fonte2 = new Font("Arial", Font.BOLD, 27);
 
-    private Color cor1 = new Color(255, 245, 232); //bege claro
-    private Color cor2 = new Color(109, 73, 37); //marrom
-    private Color cor3 = new Color(135, 102, 69); //bege escuro
+    private Color cor1 = new Color(250, 250, 250); //branco
+    private Color cor2 = new Color(110, 143,143); //verde 
+    private Color cor3 = new Color(102, 102, 102); //cinza
 
     public TelaLogin()
     {

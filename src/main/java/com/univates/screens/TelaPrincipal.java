@@ -71,14 +71,18 @@ public class TelaPrincipal extends JFrame
     private KCombo<Integer> input_dia  = new KCombo<>( true );
     
     private JButton botaoConf = new JButton("Confirma");
+    private JButton botaoBaixarDados = new JButton("Baixar dados");
+    private JButton botaoBaixarModelos = new JButton("Baixar modelo");
+    private JButton botaoImportDados = new JButton("Importar dados");
 
-    private Font fonte1 = new Font("Serif", Font.PLAIN, 18);
-    private Font fonte2 = new Font("Serif", Font.BOLD, 25);
-    private Font fonte3 = new Font("Serif", Font.BOLD, 20);
+    private Font fonte1 = new Font("Arial", Font.PLAIN, 18);
+    private Font fonte2 = new Font("Arial", Font.BOLD, 25);
+    private Font fonte3 = new Font("Arial", Font.BOLD, 20);
+    private Font fonte4 = new Font("Arial", Font.PLAIN, 15);
 
-    private Color cor1 = new Color(255, 245, 232); //bege claro
-    private Color cor2 = new Color(109, 73, 37); //marrom
-    private Color cor3 = new Color(135, 102, 69); //bege escuro
+    private Color cor1 = new Color(250, 250, 250); //branco
+    private Color cor2 = new Color(110, 143,143); //verde 
+    private Color cor3 = new Color(102, 102, 102); //cinza
 
     Usuario usuario;
 
@@ -121,6 +125,9 @@ public class TelaPrincipal extends JFrame
         add(historico);
         add(resumo);
         add(botaoConf);
+        add(botaoBaixarDados);
+        add(botaoBaixarModelos);
+        add(botaoImportDados);
         add(tabela_ultimas_transacoes);
         add(tabela_transacoes_por_mes);
         add(radio1);
@@ -144,10 +151,13 @@ public class TelaPrincipal extends JFrame
         botaoConf                .setBounds(10, textoValor.getY()+50, 200, 25);
         radio1                   .setBounds(10, textoValor.getY()+25, 90, 20);
         radio2                   .setBounds(100, textoValor.getY()+25, 90, 20);
-        checkbox_data_manual     .setBounds(320, textoValor.getY()+25, 300, 20);
-        input_ano                .setBounds(280, textoValor.getY()+50, 100, 25);
-        input_mes                .setBounds(380, textoValor.getY()+50, 100, 25);
-        input_dia                .setBounds(480, textoValor.getY()+50, 100, 25);
+        checkbox_data_manual     .setBounds(320, 75, 300, 20);
+        input_ano                .setBounds(280, 102, 100, 25);
+        input_mes                .setBounds(380, 102, 100, 25);
+        input_dia                .setBounds(480, 102, 100, 25);
+        botaoBaixarDados         .setBounds(450, 155, 130, 25);
+        botaoBaixarModelos       .setBounds(280, 155, 130, 25);
+        botaoImportDados         .setBounds(450, 185, 130, 25);
     }
 
     private void setFonteComponentes() 
@@ -162,17 +172,20 @@ public class TelaPrincipal extends JFrame
         radio1                   .setFont(fonte1);
         radio2                   .setFont(fonte1);
         checkbox_data_manual     .setFont(fonte1);
-        tabela_ultimas_transacoes.setFont(fonte1);
-        tabela_transacoes_por_mes.setFont(fonte1);
+        tabela_ultimas_transacoes.setFont(fonte4);
+        tabela_transacoes_por_mes.setFont(fonte4);
         input_ano                .setFont(fonte1);
         input_mes                .setFont(fonte1);
         input_dia                .setFont(fonte1);
+        botaoBaixarDados         .setFont(fonte1);
+        botaoBaixarModelos       .setFont(fonte1);
+        botaoImportDados         .setFont(fonte1);
     }
 
     private void setCorComponentes() 
     {
         nome                     .setForeground(cor2);
-        saldo                    .setForeground(cor2);
+        saldo                    .setForeground(cor3);
         textoValor               .setForeground(cor2);
         textoValor               .setBackground(cor1);
         textoValor               .setBorder(new LineBorder(cor2, 2));
@@ -182,20 +195,20 @@ public class TelaPrincipal extends JFrame
         botaoConf                .setForeground(cor1);
         botaoConf                .setBackground(cor2);
         botaoConf                .setBorder(new LineBorder(cor2, 2));
-        radio1                   .setForeground(cor2);
+        radio1                   .setForeground(cor3);
         radio1                   .setBackground(cor1);
-        radio2                   .setForeground(cor2);
+        radio2                   .setForeground(cor3);
         radio2                   .setBackground(cor1);
-        checkbox_data_manual     .setForeground(cor2);
+        checkbox_data_manual     .setForeground(cor3);
         checkbox_data_manual     .setBackground(cor1);
-        tabela_ultimas_transacoes.setForeground(cor2);
+        tabela_ultimas_transacoes.setForeground(cor3);
         tabela_ultimas_transacoes.setBackground(cor1);
-        tabela_ultimas_transacoes.setSelectionBackground(cor3);
+        tabela_ultimas_transacoes.setSelectionBackground(cor2);
         tabela_ultimas_transacoes.setGridColor(cor3);
         tabela_ultimas_transacoes.setBorder(new LineBorder(cor2, 2));
-        tabela_transacoes_por_mes.setForeground(cor2);
+        tabela_transacoes_por_mes.setForeground(cor3);
         tabela_transacoes_por_mes.setBackground(cor1);
-        tabela_transacoes_por_mes.setSelectionBackground(cor3);
+        tabela_transacoes_por_mes.setSelectionBackground(cor2);
         tabela_transacoes_por_mes.setGridColor(cor3);
         tabela_transacoes_por_mes.setBorder(new LineBorder(cor2, 2));
         input_ano                .setForeground(cor2);
@@ -207,6 +220,15 @@ public class TelaPrincipal extends JFrame
         input_dia                .setForeground(cor2);
         input_dia                .setBackground(cor1);
         input_dia                .setBorder(new LineBorder(cor2, 2));
+        botaoBaixarDados         .setForeground(cor1);
+        botaoBaixarDados         .setBackground(cor2);
+        botaoBaixarDados         .setBorder(new LineBorder(cor2, 2));
+        botaoBaixarModelos       .setForeground(cor1);
+        botaoBaixarModelos       .setBackground(cor2);
+        botaoBaixarModelos       .setBorder(new LineBorder(cor2, 2));
+        botaoImportDados         .setForeground(cor1);
+        botaoImportDados         .setBackground(cor2);
+        botaoImportDados         .setBorder(new LineBorder(cor2, 2));
     }
     
     private void atualizaComboDias (ActionEvent actionEvent) 

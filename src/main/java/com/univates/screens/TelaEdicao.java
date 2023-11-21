@@ -39,11 +39,11 @@ public class TelaEdicao extends JDialog
     private JRadioButton radio1 = new JRadioButton("Inserir");
     private JRadioButton radio2 = new JRadioButton("Retirar");
 
-    private Font fonte1 = new Font("Serif", Font.PLAIN, 18);
-    private Font fonte2 = new Font("Serif", Font.BOLD, 18);
+    private Font fonte1 = new Font("Arial", Font.PLAIN, 18);
+    private Font fonte2 = new Font("Arial", Font.BOLD, 18);
 
-    private Color cor1 = new Color(255, 245, 232); //bege claro
-    private Color cor2 = new Color(109, 73, 37); //marrom
+    private Color cor1 = new Color(255, 250, 250); //bege claro
+    private Color cor2 = new Color(102, 102, 102); //cinza
     
     private Transacao transacao;
     
