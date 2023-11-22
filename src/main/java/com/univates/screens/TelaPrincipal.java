@@ -2,6 +2,7 @@ package com.univates.screens;
 
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.File;
 import java.sql.Timestamp;
 import java.awt.Color;
 import java.awt.Font;
@@ -9,23 +10,18 @@ import java.awt.event.ActionEvent;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 
-import javax.swing.ButtonGroup;
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JRadioButton;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
-import javax.swing.JTextField;
-import javax.swing.SwingConstants;
 import javax.swing.border.LineBorder;
-import javax.swing.JCheckBox;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
+import javax.swing.filechooser.FileNameExtensionFilter;
+import javax.swing.*;
+
+
 
 import com.univates.components.KCombo;
 import com.univates.components.KMessage;
+import com.univates.models.Arquivo;
 import com.univates.models.Transacao;
 import com.univates.models.Usuario;
 import com.univates.services.TransacaoService;
@@ -50,6 +46,7 @@ public class TelaPrincipal extends JFrame
     };
     private JTable tabela_transacoes_por_mes  = new JTable(modelo_tabela_transacoes_por_mes);
     private JTable tabela_ultimas_transacoes  = new JTable(modelo_tabela_ultimas_transacoes);
+    
     
 
     private JLabel nome      = new JLabel();
@@ -106,6 +103,7 @@ public class TelaPrincipal extends JFrame
         checkbox_data_manual.addActionListener(this::acaoCheckboxDataManual);
         input_ano.addActionListener(this::atualizaComboDias);
         input_mes.addActionListener(this::atualizaComboDias);
+        botaoBaixarModelos.addActionListener(this::acaoBaixarModelos);
         
         acaoCheckboxDataManual(null);
         atualizaComboDias(null);
@@ -229,6 +227,56 @@ public class TelaPrincipal extends JFrame
         botaoImportDados         .setForeground(cor1);
         botaoImportDados         .setBackground(cor2);
         botaoImportDados         .setBorder(new LineBorder(cor2, 2));
+    }
+    
+    private void acaoBaixarModelos( ActionEvent actionEvent )
+    {
+        fileChooser.setFileFilter(filter);
+        
+        
+        int result  = fileChooser.showSaveDialog(null);
+        
+
+        
+        if (result == JFileChooser.APPROVE_OPTION) 
+        {
+            File selectedFile = fileChooser.getSelectedFile();
+
+            System.out.println("Arquivo selecionado: " + selectedFile.getAbsolutePath());
+            
+            Arquivo arquivo = new Arquivo( selectedFile.getAbsolutePath() );
+            
+            try {
+                ArrayList<String> teste = arquivo.leArquivo();
+                
+                System.out.println(teste);
+                
+            } catch (Exception e) {
+                // TODO: handle exception
+            }
+            
+            // JFileChooser fileChooser = new JFileChooser();
+            // fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+    
+            // // Abre a caixa de diálogo para escolher um diretório
+            // int result = fileChooser.showSaveDialog(null);
+    
+            // // Verifica se o usuário escolheu um diretório
+            // if (result == JFileChooser.APPROVE_OPTION) {
+            //     // Obtém o diretório selecionado
+            //     File selectedDirectory = fileChooser.getSelectedFile();
+    
+            //     // Faça algo com o diretório selecionado, como salvar um arquivo de output
+            //     // Neste exemplo, apenas imprime o caminho do diretório
+            //     System.out.println("Diretório selecionado: " + selectedDirectory.getAbsolutePath());
+            // } else {
+            //     System.out.println("Nenhum diretório selecionado.");
+            // }
+        }
+        else 
+        {
+            System.out.println("Nenhum arquivo selecionado.");
+        }
     }
     
     private void atualizaComboDias (ActionEvent actionEvent) 

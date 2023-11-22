@@ -21,7 +21,7 @@ public class Arquivo
      */
     public Arquivo( String nome_arquivo )
     {
-        this.nome_arquivo = "src/main/java/com/univates/archives/" + nome_arquivo ;
+        this.nome_arquivo = nome_arquivo ;
     }
 
     /**

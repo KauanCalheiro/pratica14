@@ -17,7 +17,7 @@ public class Csv extends Arquivo
      */
     public Csv( String nomeArquivo ) 
     {
-        super( "csv/" + nomeArquivo );
+        super( "src/main/java/com/univates/archives/csv/" + nomeArquivo );
     }
     
     /**
@@ -27,11 +27,11 @@ public class Csv extends Arquivo
      * @return true se a linha foi escrita com sucesso, false caso contrário.
      * @throws Exception se ocorrer um erro ao escrever a linha.
      */
-    public boolean escreveLinha( ArrayList<String> lista_itens ) throws Exception 
+    public boolean escreveLinha( ArrayList<String> lista_itens, boolean append ) throws Exception 
     {
         try 
         {
-            return super.escreveArquivo( formataListaItens( lista_itens ), true );
+            return super.escreveArquivo( formataListaItens( lista_itens ), append );
         } 
         catch ( Exception e )
         {
