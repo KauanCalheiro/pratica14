@@ -1,6 +1,7 @@
 package com.univates.models;
 
 import java.util.ArrayList;
+import java.util.stream.Collectors;
 
 /**
  * Uma classe que representa um arquivo CSV.
@@ -46,8 +47,10 @@ public class Csv extends Arquivo
      */
     public ArrayList<String> formataListaItens( ArrayList<String> lista_itens )
     {
-        String linha = String.join(",", lista_itens);
-
+        String linha = lista_itens.stream()
+            .map(item -> "\"" + item + "\"")
+            .collect(Collectors.joining(","));
+            
         ArrayList<String> lista = new ArrayList<>();
         lista.add(linha);
             

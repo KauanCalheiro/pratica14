@@ -25,9 +25,9 @@ public class CsvTest {
         Csv csv = new Csv("test.csv");
 
         ArrayList<String> listaItens = new ArrayList<>();
-        listaItens.add("item1");
         listaItens.add("item2");
         listaItens.add("item3");
+        listaItens.add("item4");
 
         try 
         {
