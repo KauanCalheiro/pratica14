@@ -1,17 +1,24 @@
-package com.univates.models;
-
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Test;
+import com.univates.models.Csv;
 
 import java.util.ArrayList;
 
+import org.junit.jupiter.api.Assertions;
+
 public class CsvTest {
     
-    public static void main(String[] args) 
+    public static void main(String[] args)  throws Exception
     {
         CsvTest test = new CsvTest();
-        test.testEscreveLinha();
-        test.testFormataListaItens();
+        
+        try
+        {
+            test.testEscreveLinha();
+            test.testFormataListaItens();
+        }
+        catch(Exception e)
+        {
+            System.out.println(e.getMessage());
+        }
     }
 
     public void testEscreveLinha() {
@@ -22,10 +29,12 @@ public class CsvTest {
         listaItens.add("item2");
         listaItens.add("item3");
 
-        try {
+        try 
+        {
             boolean result = csv.escreveLinha(listaItens);
             Assertions.assertTrue(result);
         } catch (Exception e) {
+            System.out.println(e.getMessage());
             Assertions.fail("Exception should not be thrown");
         }
     }

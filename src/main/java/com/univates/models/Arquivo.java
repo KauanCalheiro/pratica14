@@ -58,7 +58,7 @@ public class Arquivo
 
             return true;
         }
-        catch (IOException e)
+        catch (Exception e)
         {
             throw new Exception("Erro ao escrever no arquivo: " + e.getMessage());
         }
@@ -119,8 +119,14 @@ public class Arquivo
      */
     public int getQuantidadeLinhas() throws Exception
     {
-        int qtde_linhas         = leArquivo().size();
-        boolean possui_conteudo = ! getLinha( 1 ).isEmpty(); 
+        int qtde_linhas = leArquivo().size();
+        
+        if ( getLinha( 1 ) == null ) 
+        {
+            return 0;
+        }
+        
+        boolean possui_conteudo =  ! getLinha( 1 ).isEmpty() ; 
         
         return possui_conteudo ? qtde_linhas : 0 ;
     }
