@@ -11,13 +11,11 @@ public class Csv extends Arquivo
 {
     /**
      * Constrói um objeto Csv com o nome de arquivo especificado.
-     * O nome do arquivo é prefixado com "csv/".
      * 
      * @param nomeArquivo O nome do arquivo CSV.
      */
     public Csv( String nomeArquivo ) 
     {
-        //  "src/main/java/com/univates/archives/csv/" +
         super( nomeArquivo );
     }
     

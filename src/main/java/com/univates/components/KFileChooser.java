@@ -37,6 +37,7 @@ public class KFileChooser
     public File getSelecao()
     {
         this.arquivo_selecionado = this.explorador_arquivos.getSelectedFile();
+        
         return this.arquivo_selecionado;
     }
     

@@ -14,7 +14,6 @@ import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
-import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.*;
 
 
@@ -22,10 +21,9 @@ import javax.swing.*;
 import com.univates.components.KCombo;
 import com.univates.components.KFileChooser;
 import com.univates.components.KMessage;
-import com.univates.models.Arquivo;
-import com.univates.models.Csv;
 import com.univates.models.Transacao;
 import com.univates.models.Usuario;
+import com.univates.services.CsvService;
 import com.univates.services.TransacaoService;
 import com.univates.services.UsuarioService;
 
@@ -105,7 +103,10 @@ public class TelaPrincipal extends JFrame
         checkbox_data_manual.addActionListener(this::acaoCheckboxDataManual);
         input_ano.addActionListener(this::atualizaComboDias);
         input_mes.addActionListener(this::atualizaComboDias);
+        
         botaoBaixarModelos.addActionListener(this::acaoBaixarModelos);
+        botaoBaixarDados.addActionListener(this::acaoExportarDados);
+        botaoImportDados.addActionListener(this::acaoImportarDados);
         
         acaoCheckboxDataManual(null);
         atualizaComboDias(null);
@@ -235,7 +236,6 @@ public class TelaPrincipal extends JFrame
     {
         KFileChooser explorador_arquivos = new KFileChooser();
         
-        // explorador_arquivos.setFiltro("Arquivos CSV", "csv");
         explorador_arquivos.setTipoSelecao( JFileChooser.DIRECTORIES_ONLY );
         
         explorador_arquivos.show();        
@@ -244,26 +244,73 @@ public class TelaPrincipal extends JFrame
         {
             File selectedFile = explorador_arquivos.getSelecao();
             
-            Csv arquivo = new Csv( selectedFile.getAbsolutePath() + "/modelo.csv" );
-            
             try 
             {
-                ArrayList<String> teste = new ArrayList<>();
+                CsvService.modeloCsv( selectedFile.getAbsolutePath(), "Modelo" );
                 
-                teste.add("data");
-                teste.add("valor");
-                
-                arquivo.escreveLinha( teste, false );
-                
-                KMessage.infoMessage( "Modelo baixado com sucesso!" );
+                KMessage.infoMessage("Modelo baixado com sucesso!");
             } 
             catch (Exception e) 
             {
+                KMessage.errorMessage( "Erro ao tentar baixar arquivo modelo" );
+            }
+        }        
+    }
+    
+    private void acaoExportarDados( ActionEvent actionEvent )
+    {
+        KFileChooser explorador_arquivos = new KFileChooser();
+        
+        explorador_arquivos.setTipoSelecao( JFileChooser.DIRECTORIES_ONLY );
+        
+        explorador_arquivos.show();        
+        
+        if ( explorador_arquivos.getTipoSelecao() == JFileChooser.APPROVE_OPTION ) 
+        {
+            File selectedFile = explorador_arquivos.getSelecao();
+            
+            try 
+            {
+                CsvService.exportDadosByUser( selectedFile.getAbsolutePath(), this.usuario );
+                
+                KMessage.infoMessage("Dados exportados com sucesso!");
+            } 
+            catch (Exception e) 
+            {
+                // KMessage.errorMessage( "Erro ao tentar baixar arquivo modelo" );
                 KMessage.errorMessage( e.getMessage() );
             }
-            
         }        
+    }
+    
+    private void acaoImportarDados( ActionEvent actionEvent )
+    {
+        boolean reescrever_transacoes = KMessage.questionMessage("Deseja reescrever as transações existentes?");
         
+        KFileChooser explorador_arquivos = new KFileChooser();
+        
+        explorador_arquivos.setTipoSelecao( JFileChooser.FILES_ONLY );
+        explorador_arquivos.setFiltro( "Arquivo csv", "csv" );
+        explorador_arquivos.show();        
+        
+        if ( explorador_arquivos.getTipoSelecao() == JFileChooser.APPROVE_OPTION ) 
+        {
+            File selectedFile = explorador_arquivos.getSelecao();
+            
+            try 
+            {
+                CsvService.importDados( selectedFile.getAbsolutePath(), reescrever_transacoes, this.usuario );
+                
+                KMessage.infoMessage("Dados importados com sucesso!");
+                
+                this.updateFields();
+            } 
+            catch (Exception e) 
+            {
+                // KMessage.errorMessage( "Erro ao tentar baixar arquivo modelo" );
+                KMessage.errorMessage( e.getMessage() );
+            }
+        }        
     }
     
     private void atualizaComboDias (ActionEvent actionEvent) 

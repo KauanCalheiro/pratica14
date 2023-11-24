@@ -216,6 +216,7 @@ public class TelaEdicao extends JDialog
             transacao.setData(data);
             transacao.setValor(valor);
             transacao.store();
+            
             this.dispose();
         } 
         catch (Exception e) 
