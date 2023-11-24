@@ -20,8 +20,10 @@ import javax.swing.*;
 
 
 import com.univates.components.KCombo;
+import com.univates.components.KFileChooser;
 import com.univates.components.KMessage;
 import com.univates.models.Arquivo;
+import com.univates.models.Csv;
 import com.univates.models.Transacao;
 import com.univates.models.Usuario;
 import com.univates.services.TransacaoService;
@@ -231,52 +233,37 @@ public class TelaPrincipal extends JFrame
     
     private void acaoBaixarModelos( ActionEvent actionEvent )
     {
-        fileChooser.setFileFilter(filter);
+        KFileChooser explorador_arquivos = new KFileChooser();
         
+        // explorador_arquivos.setFiltro("Arquivos CSV", "csv");
+        explorador_arquivos.setTipoSelecao( JFileChooser.DIRECTORIES_ONLY );
         
-        int result  = fileChooser.showSaveDialog(null);
+        explorador_arquivos.show();        
         
-
-        
-        if (result == JFileChooser.APPROVE_OPTION) 
+        if ( explorador_arquivos.getTipoSelecao() == JFileChooser.APPROVE_OPTION ) 
         {
-            File selectedFile = fileChooser.getSelectedFile();
-
-            System.out.println("Arquivo selecionado: " + selectedFile.getAbsolutePath());
+            File selectedFile = explorador_arquivos.getSelecao();
             
-            Arquivo arquivo = new Arquivo( selectedFile.getAbsolutePath() );
+            Csv arquivo = new Csv( selectedFile.getAbsolutePath() + "/modelo.csv" );
             
-            try {
-                ArrayList<String> teste = arquivo.leArquivo();
+            try 
+            {
+                ArrayList<String> teste = new ArrayList<>();
                 
-                System.out.println(teste);
+                teste.add("data");
+                teste.add("valor");
                 
-            } catch (Exception e) {
-                // TODO: handle exception
+                arquivo.escreveLinha( teste, false );
+                
+                KMessage.infoMessage( "Modelo baixado com sucesso!" );
+            } 
+            catch (Exception e) 
+            {
+                KMessage.errorMessage( e.getMessage() );
             }
             
-            // JFileChooser fileChooser = new JFileChooser();
-            // fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-    
-            // // Abre a caixa de diálogo para escolher um diretório
-            // int result = fileChooser.showSaveDialog(null);
-    
-            // // Verifica se o usuário escolheu um diretório
-            // if (result == JFileChooser.APPROVE_OPTION) {
-            //     // Obtém o diretório selecionado
-            //     File selectedDirectory = fileChooser.getSelectedFile();
-    
-            //     // Faça algo com o diretório selecionado, como salvar um arquivo de output
-            //     // Neste exemplo, apenas imprime o caminho do diretório
-            //     System.out.println("Diretório selecionado: " + selectedDirectory.getAbsolutePath());
-            // } else {
-            //     System.out.println("Nenhum diretório selecionado.");
-            // }
-        }
-        else 
-        {
-            System.out.println("Nenhum arquivo selecionado.");
-        }
+        }        
+        
     }
     
     private void atualizaComboDias (ActionEvent actionEvent) 

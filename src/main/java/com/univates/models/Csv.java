@@ -17,7 +17,8 @@ public class Csv extends Arquivo
      */
     public Csv( String nomeArquivo ) 
     {
-        super( "src/main/java/com/univates/archives/csv/" + nomeArquivo );
+        //  "src/main/java/com/univates/archives/csv/" +
+        super( nomeArquivo );
     }
     
     /**
