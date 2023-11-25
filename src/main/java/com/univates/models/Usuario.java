@@ -107,7 +107,7 @@ public class Usuario extends Model<Usuario>
         
         return saldo;
     }
-    
+
     public void store()
     {
         UsuarioService.validaUsuario( this );

@@ -7,7 +7,9 @@ import java.sql.Timestamp;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 import javax.swing.border.LineBorder;
@@ -206,7 +208,7 @@ public class TelaPrincipal extends JFrame
         tabela_ultimas_transacoes.setBackground(cor1);
         tabela_ultimas_transacoes.setSelectionBackground(cor2);
         tabela_ultimas_transacoes.setGridColor(cor3);
-        tabela_ultimas_transacoes.setBorder(new LineBorder(cor2, 2));
+        tabela_ultimas_transacoes.setBorder(new LineBorder(cor2, 0));
         tabela_transacoes_por_mes.setForeground(cor3);
         tabela_transacoes_por_mes.setBackground(cor1);
         tabela_transacoes_por_mes.setSelectionBackground(cor2);
@@ -454,10 +456,10 @@ public class TelaPrincipal extends JFrame
         header.setBackground(cor1);
         header.setForeground(cor2);
         header.setFont(fonte3);
-        header.setBorder(new LineBorder(cor2, 2));
+        header.setBorder(new LineBorder(cor2, 0));
 
         JScrollPane scrollPane2 = new JScrollPane(tabela_ultimas_transacoes);
-        scrollPane2.setBounds(10, historico.getY()+25, 580, 165);
+        scrollPane2.setBounds(10, historico.getY()+25, 580, 175);
         scrollPane2.setBackground(cor2);
         scrollPane2.setBorder(new LineBorder(cor2, 2));
         scrollPane2.getViewport().setBackground(cor1);

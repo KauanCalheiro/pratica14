@@ -20,7 +20,7 @@ public class TelaCadastro extends JFrame
     private JLabel aux      = new JLabel("Já possui cadastro? Faça Login!");
     private JLabel nome     = new JLabel("Nome: ");
     private JLabel cpf      = new JLabel("CPF: ");
-    private JLabel salario  = new JLabel("Salário: ");
+    private JLabel salario  = new JLabel("Valor Inicial: ");
     private JLabel senha    = new JLabel("Senha: ");
 
     private JTextField     textoNome    = new JTextField();
@@ -80,10 +80,10 @@ public class TelaCadastro extends JFrame
         cadastro    .setBounds(215, 40, 200, 20); 
         aux         .setBounds(150, 260, 300, 20); 
         nome        .setBounds(150, cadastro.getY()+40, 300, 20); 
-        cpf         .setBounds(nome.getX(), nome.getY()+30, 300, 20); 
-        salario     .setBounds(cpf.getX(), cpf.getY()+30, 300, 20); 
-        senha       .setBounds(salario.getX(), salario.getY()+30, 300, 20); 
-        textoNome   .setBounds(215, cadastro.getY()+45, 200, 20);
+        cpf         .setBounds(160, nome.getY()+30, 300, 20); 
+        salario     .setBounds(110, cpf.getY()+30, 300, 20); 
+        senha       .setBounds(nome.getX(), salario.getY()+30, 300, 20); 
+        textoNome   .setBounds(215, cadastro.getY()+40, 200, 20);
         textoCpf    .setBounds(textoNome.getX(), textoNome.getY()+30, 200, 20);
         textoSalario.setBounds(textoCpf.getX(), textoCpf.getY()+30, 200, 20);
         textoSenha  .setBounds(textoSalario.getX(), textoSalario.getY()+30, 200, 20);
@@ -163,7 +163,44 @@ public class TelaCadastro extends JFrame
 
     private void cadastraNovoUsuario ( ActionEvent actionEvent ) 
     {
-        try
+        try {
+            String nome = textoNome.getText();
+            String cpf = textoCpf.getText();
+            String senha = String.valueOf(textoSenha.getPassword());
+            String salarioText = textoSalario.getText();
+    
+            if (nome.isEmpty() || cpf.isEmpty() || senha.isEmpty() || salarioText.isEmpty()) {
+                KMessage.errorMessage("Preencha todos os campos antes de cadastrar.");
+                return;
+            }
+
+            if (!validarCPF(cpf)) {
+                KMessage.errorMessage("Erro: CPF inválido. Por favor, corrija e tente novamente.");
+                return;
+            }
+    
+            if (!validarSenha(senha)) {
+                KMessage.errorMessage("A senha deve ter pelo menos 8 caracteres.");
+                return;
+            }
+            
+            Double salario = Double.parseDouble(salarioText);
+    
+            // Se todas as validações passarem, cadastra o usuário
+            Usuario usuario = new Usuario(nome, cpf, senha, salario);
+            usuario.store();
+            KMessage.infoMessage("Usuário cadastrado com sucesso!");
+        } 
+        catch (NumberFormatException e) 
+        {
+            KMessage.errorMessage("Valor do salário inválido. Por favor, insira um valor numérico.");
+        } 
+        catch (Exception e) 
+        {
+            e.printStackTrace();
+            KMessage.errorMessage(e.getMessage());
+        }
+        /*try
         {
             String nome    = textoNome.getText();
             String cpf     = textoCpf.getText();
@@ -180,7 +217,49 @@ public class TelaCadastro extends JFrame
         {
             e.printStackTrace();
             KMessage.errorMessage( e.getMessage() );
+        }*/
+    }
+
+    public static boolean validarCPF(String cpf) {
+        cpf = cpf.replaceAll("[^0-9]", "");
+
+        if (cpf.length() != 11) {
+            return false;
         }
+
+        if (cpf.matches("(\\d)\\1{10}")) {
+            return false;
+        }
+
+        int digito1 = calcularDigito(cpf, 10, 0);
+
+        if (digito1 != Character.getNumericValue(cpf.charAt(9))) {
+            return false;
+        }
+
+        int digito2 = calcularDigito(cpf, 11, digito1);
+
+
+        return digito2 == Character.getNumericValue(cpf.charAt(10));
+    }
+
+    private static int calcularDigito(String cpf, int pesoInicial, int digitoAnterior) {
+        int soma = 0;
+        for (int i = 0; i < 9; i++) {
+            soma += Character.getNumericValue(cpf.charAt(i)) * (pesoInicial - i);
+        }
+
+        int resto = soma % 11;
+        int digito = 11 - resto;
+        if (resto < 2) {
+            digito = 0;
+        }
+
+        return digito;
+    }
+    
+    private boolean validarSenha(String senha) {
+        return senha.length() >= 8;
     }
 
     private void chamaTelaLogin ( ActionEvent actionEvent ) 
