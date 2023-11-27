@@ -42,10 +42,7 @@ public class UsuarioService
             throw new IllegalArgumentException("Nome deve ter no mínimo 3 caracteres");
         }
         
-        if( usuario.getCpf().length() != 11 )
-        {
-            throw new IllegalArgumentException("CPF deve ter 11 caracteres");
-        }
+        UsuarioService.validarCPF(usuario.getCpf());
         
         if( usuario.getSenha().length() < 8 )
         {
@@ -82,4 +79,54 @@ public class UsuarioService
             throw new IllegalArgumentException("Usuário não encontrado");
         }
     }
+    
+    private static void validarCPF(String cpf) 
+    {
+        cpf = cpf.replaceAll("[^0-9]", "");
+
+        if (cpf.length() != 11) 
+        {
+            throw new IllegalArgumentException("CPF inválido. CPF deve ter 11 caracteres");
+        }
+
+        if (cpf.matches("(\\d)\\1{10}")) 
+        {
+            throw new IllegalArgumentException("CPF inválido. Todos os dígitos são iguais");
+        }
+
+        int digito1 = calcularDigito(cpf, 10, 0);
+
+        if (digito1 != Character.getNumericValue(cpf.charAt(9))) 
+        {
+            throw new IllegalArgumentException("CPF inválido. Dígito verificador 1 não confere");
+        }
+
+        int digito2 = calcularDigito(cpf, 11, digito1);
+
+        if(digito2 == Character.getNumericValue(cpf.charAt(10)))
+        {
+            throw new IllegalArgumentException("CPF inválido. Dígito verificador 2 não confere");
+        }
+    }
+
+    private static int calcularDigito(String cpf, int pesoInicial, int digitoAnterior) 
+    {
+        int soma = 0;
+        
+        for (int i = 0; i < 9; i++) 
+        {
+            soma += Character.getNumericValue(cpf.charAt(i)) * (pesoInicial - i);
+        }
+
+        int resto  = soma % 11;
+        int digito = 11 - resto;
+
+        if (resto < 2) 
+        {
+            digito = 0;
+        }
+
+        return digito;
+    }
+
 }
