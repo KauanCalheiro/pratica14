@@ -200,24 +200,6 @@ public class TelaCadastro extends JFrame
             e.printStackTrace();
             KMessage.errorMessage(e.getMessage());
         }
-        /*try
-        {
-            String nome    = textoNome.getText();
-            String cpf     = textoCpf.getText();
-            String senha   = String.valueOf(textoSenha.getPassword());
-            Double salario = Double.parseDouble(textoSalario.getText());
-            
-            Usuario usuario = new Usuario(nome, cpf, senha, salario);
-            
-            usuario.store();
-            
-            KMessage.infoMessage( "Usuario cadastrado com sucesso!" );
-        }
-        catch ( Exception e ) 
-        {
-            e.printStackTrace();
-            KMessage.errorMessage( e.getMessage() );
-        }*/
     }
 
     public static boolean validarCPF(String cpf) {
@@ -251,6 +233,7 @@ public class TelaCadastro extends JFrame
 
         int resto = soma % 11;
         int digito = 11 - resto;
+
         if (resto < 2) {
             digito = 0;
         }

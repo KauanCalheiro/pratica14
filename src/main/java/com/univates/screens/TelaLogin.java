@@ -58,9 +58,6 @@ public class TelaLogin extends JFrame
         textoCpf.setText(tela_cadastro.getTextoCpf().getText());
         botaoLog.addActionListener(this::acaoLogin);
         botaoVoltar.addActionListener(this::acaoVoltar);
-        
-        textoCpf.setText("08019505113");
-        textoSenha.setText("Kauan123");
     }
     
     private void colocaComponentesNaTela()

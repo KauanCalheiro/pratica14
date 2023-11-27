@@ -7,9 +7,7 @@ import java.sql.Timestamp;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 import javax.swing.border.LineBorder;
@@ -17,8 +15,6 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 import javax.swing.*;
-
-
 
 import com.univates.components.KCombo;
 import com.univates.components.KFileChooser;
