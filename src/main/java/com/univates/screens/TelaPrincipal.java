@@ -35,7 +35,7 @@ public class TelaPrincipal extends JFrame
         }
     };
 
-    private DefaultTableModel modelo_tabela_ultimas_transacoes = new DefaultTableModel(new Object[][] {}, new String[] {"Id", "Data", "Valor"}) 
+    private DefaultTableModel modelo_tabela_ultimas_transacoes = new DefaultTableModel(new Object[][] {}, new String[] {"Id", "Data", "Valor", "Descrição"}) 
     {
         @Override
         public boolean isCellEditable(int row, int column) {
@@ -44,16 +44,16 @@ public class TelaPrincipal extends JFrame
     };
     private JTable tabela_transacoes_por_mes  = new JTable(modelo_tabela_transacoes_por_mes);
     private JTable tabela_ultimas_transacoes  = new JTable(modelo_tabela_ultimas_transacoes);
-    
-    
-
+      
     private JLabel nome      = new JLabel();
     private JLabel saldo     = new JLabel("Saldo disponível");
     private JLabel valor     = new JLabel();
     private JLabel historico = new JLabel("Histórico");
     private JLabel resumo    = new JLabel("Movimentação nos meses");
+    private JLabel descricao = new JLabel("Descrição (opcional)");
     
     private JTextField textoValor = new JTextField();
+    private JTextField textoDescricao = new JTextField();
     
     private ButtonGroup grupo1  = new ButtonGroup();
     private JRadioButton radio1 = new JRadioButton("Inserir");
@@ -83,7 +83,7 @@ public class TelaPrincipal extends JFrame
 
     public TelaPrincipal()
     {
-        setSize(620, 680); 
+        setSize(720, 680); 
         getContentPane().setBackground(cor1);
         setTitle("Tela"); 
         setDefaultCloseOperation(EXIT_ON_CLOSE); 
@@ -135,6 +135,8 @@ public class TelaPrincipal extends JFrame
         add(input_ano);
         add(input_mes);
         add(input_dia);
+        add(descricao);
+        add(textoDescricao);
     }
     
     private void setPosicaoComponentes() 
@@ -143,20 +145,22 @@ public class TelaPrincipal extends JFrame
         saldo                    .setBounds(10, nome.getY()+40, 200, 20); 
         valor                    .setBounds(10, saldo.getY()+25, 200, 20);
         textoValor               .setBounds(10, valor.getY()+30, 200, 20);
-        historico                .setBounds(10, textoValor.getY()+95, 200, 20);
-        tabela_ultimas_transacoes.setBounds(10, historico.getY()+25, 580, 165); 
-        resumo                   .setBounds(10, tabela_ultimas_transacoes.getY()+180, 300, 20); 
-        tabela_transacoes_por_mes.setBounds(10, resumo.getY()+25, 580, 195);
-        botaoConf                .setBounds(10, textoValor.getY()+50, 200, 25);
         radio1                   .setBounds(10, textoValor.getY()+25, 90, 20);
         radio2                   .setBounds(100, textoValor.getY()+25, 90, 20);
-        checkbox_data_manual     .setBounds(320, 75, 300, 20);
-        input_ano                .setBounds(280, 102, 100, 25);
-        input_mes                .setBounds(380, 102, 100, 25);
-        input_dia                .setBounds(480, 102, 100, 25);
-        botaoBaixarDados         .setBounds(450, 155, 130, 25);
-        botaoBaixarModelos       .setBounds(280, 155, 130, 25);
-        botaoImportDados         .setBounds(450, 185, 130, 25);
+        botaoConf                .setBounds(10, radio1.getY()+25, 200, 25);
+        historico                .setBounds(10, botaoConf.getY()+45, 200, 20);
+        tabela_ultimas_transacoes.setBounds(10, historico.getY()+25, 680, 165); 
+        resumo                   .setBounds(10, tabela_ultimas_transacoes.getY()+180, 300, 20); 
+        tabela_transacoes_por_mes.setBounds(10, resumo.getY()+25, 480, 194);
+        descricao                .setBounds(300,valor.getY(), 200, 20);
+        textoDescricao           .setBounds(300, textoValor.getY(), 300, 20);
+        checkbox_data_manual     .setBounds(300, 130, 300, 20);
+        input_ano                .setBounds(300, 155, 100, 25);
+        input_mes                .setBounds(400, input_ano.getY(), 100, 25);
+        input_dia                .setBounds(500, input_mes.getY(), 100, 25);
+        botaoBaixarDados         .setBounds(500, 500, 180, 25);
+        botaoBaixarModelos       .setBounds(500, 450, 180, 25);
+        botaoImportDados         .setBounds(500, 550, 180, 25);
     }
 
     private void setFonteComponentes() 
@@ -179,6 +183,8 @@ public class TelaPrincipal extends JFrame
         botaoBaixarDados         .setFont(fonte1);
         botaoBaixarModelos       .setFont(fonte1);
         botaoImportDados         .setFont(fonte1);
+        descricao                .setFont(fonte1);
+        textoDescricao           .setFont(fonte1);
     }
 
     private void setCorComponentes() 
@@ -228,6 +234,10 @@ public class TelaPrincipal extends JFrame
         botaoImportDados         .setForeground(cor1);
         botaoImportDados         .setBackground(cor2);
         botaoImportDados         .setBorder(new LineBorder(cor2, 2));
+        descricao                .setForeground(cor3);
+        textoDescricao           .setForeground(cor2);
+        textoDescricao           .setBackground(cor1);
+        textoDescricao           .setBorder(new LineBorder(cor2, 2));
     }
     
     private void acaoBaixarModelos( ActionEvent actionEvent )
@@ -426,7 +436,8 @@ public class TelaPrincipal extends JFrame
 
         tabela_ultimas_transacoes.getColumnModel().getColumn(0).setPreferredWidth(70);
         tabela_ultimas_transacoes.getColumnModel().getColumn(1).setPreferredWidth(120);
-        tabela_ultimas_transacoes.getColumnModel().getColumn(2).setPreferredWidth(160);
+        tabela_ultimas_transacoes.getColumnModel().getColumn(2).setPreferredWidth(120);
+        tabela_ultimas_transacoes.getColumnModel().getColumn(3).setPreferredWidth(200);
 
         DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
         centerRenderer.setHorizontalAlignment(SwingConstants.CENTER);
@@ -455,7 +466,7 @@ public class TelaPrincipal extends JFrame
         header.setBorder(new LineBorder(cor2, 0));
 
         JScrollPane scrollPane2 = new JScrollPane(tabela_ultimas_transacoes);
-        scrollPane2.setBounds(10, historico.getY()+25, 580, 175);
+        scrollPane2.setBounds(10, historico.getY()+25, 680, 175);
         scrollPane2.setBackground(cor2);
         scrollPane2.setBorder(new LineBorder(cor2, 2));
         scrollPane2.getViewport().setBackground(cor1);

@@ -25,6 +25,7 @@ public class TelaEdicao extends JDialog
     private JButton botao_excluir = new JButton("Excluir");
     
     private JTextField input_valor = new JTextField();
+    private JTextField input_descri= new JTextField();
     
     private KCombo<Integer> input_ano  = new KCombo<>( TransacaoService.getAnosParaCombo(), false );
     private KCombo<String>  input_mes  = new KCombo<>( TransacaoService.getMesesParaCombo(), false );
@@ -34,6 +35,7 @@ public class TelaEdicao extends JDialog
     private JLabel label_ano   = new JLabel("Ano");
     private JLabel label_mes   = new JLabel("Mês");
     private JLabel label_dia   = new JLabel("Dia");
+    private JLabel label_descri= new JLabel("Descrição");
     
     private ButtonGroup  grupo1 = new ButtonGroup();
     private JRadioButton radio1 = new JRadioButton("Inserir");
@@ -51,7 +53,7 @@ public class TelaEdicao extends JDialog
     {
         System.out.println(transacao.toString());
 
-        setSize(450, 300); 
+        setSize(450, 310); 
         getContentPane().setBackground(cor1);
         setTitle("Tela de Edição"); 
         setDefaultCloseOperation(DISPOSE_ON_CLOSE); 
@@ -120,7 +122,12 @@ public class TelaEdicao extends JDialog
         add(botao_editar);
         add(botao_excluir);
         add(botao_voltar); 
+        add(input_descri);
+        add(label_descri);
     }
+
+    //08019505113
+    //Kauan123
     
     private void setPosicaoComponentes() 
     {
@@ -132,6 +139,8 @@ public class TelaEdicao extends JDialog
         input_mes    .setBounds(10, 135, 200, 25);
         label_dia    .setBounds(10, 160, 200, 25);
         input_dia    .setBounds(10, 185, 200, 25);
+        label_descri .setBounds(10, 210, 200, 25);
+        input_descri .setBounds(10, 235, 200, 25);
         radio1       .setBounds(320, 35, 90, 25);
         radio2       .setBounds(230, 35, 90, 25);
         botao_editar .setBounds(320, 110, 200, 25);
@@ -149,6 +158,8 @@ public class TelaEdicao extends JDialog
         input_mes    .setFont(fonte1);
         label_dia    .setFont(fonte2);
         input_dia    .setFont(fonte1);
+        label_descri .setFont(fonte2);
+        input_descri .setFont(fonte1);
         radio1       .setFont(fonte1);
         radio2       .setFont(fonte1);
         botao_editar .setFont(fonte1);
@@ -174,6 +185,10 @@ public class TelaEdicao extends JDialog
         input_dia    .setForeground(cor2);
         input_dia    .setBackground(cor1);
         input_dia    .setBorder(new LineBorder(cor2, 2));
+        label_descri .setForeground(cor2);
+        input_descri .setForeground(cor2);
+        input_descri .setBackground(cor1);
+        input_descri .setBorder(new LineBorder(cor2, 2));
         radio1       .setForeground(cor2);
         radio1       .setBackground(cor1);
         radio2       .setForeground(cor2);
