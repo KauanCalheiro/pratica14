@@ -81,7 +81,7 @@ public class CsvService
                 
                 Timestamp date = Timestamp.valueOf( LocalDateTime.of(year, month, day, 0, 0) );
                 
-                Transacao transacao = new Transacao( Double.parseDouble( col_value ), date, user );
+                Transacao transacao = new Transacao( Double.parseDouble( col_value ), date, user, null );
                 
                 transacao.store();
             }

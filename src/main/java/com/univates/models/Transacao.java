@@ -14,24 +14,26 @@ public class Transacao extends Model<Transacao>
     private double    valor;
     private Timestamp data;
     private int       ref_usuario;
+    private String    comentario;
     
-    
-    public Transacao(double valor, Timestamp data, Usuario usuario)
+    public Transacao(double valor, Timestamp data, Usuario usuario, String comentario)
     {
         super();
         this.id          = super.getNextId();
         this.valor       = valor;
         this.data        = data;
         this.ref_usuario = usuario.getId();
+        this.comentario  = comentario;
     }
     
-    public Transacao(double valor, Timestamp data, int ref_usuario)
+    public Transacao(double valor, Timestamp data, int ref_usuario, String comentario)
     {
         super();
         this.id          = super.getNextId();
         this.valor       = valor;
         this.data        = data;
         this.ref_usuario = ref_usuario;
+        this.comentario  = comentario;
     }
     
     public Transacao()
@@ -58,8 +60,7 @@ public class Transacao extends Model<Transacao>
             String data_inicial = data_referencia.toLocalDateTime().toLocalDate().toString();
             String data_final   = Timestamp.valueOf(data_referencia.toLocalDateTime().withDayOfMonth(TransacaoService.getUltimoDiaDoMes(data_referencia))).toLocalDateTime().toLocalDate().toString();
 
-            
-            filtros.add( new Filtro("ref_usuario", "=", String.valueOf(ref_usuario)) );
+            filtros.add( new Filtro( "ref_usuario", "=", String.valueOf(ref_usuario)) );
             filtros.add( new Filtro( "data", ">=", data_inicial ) );
             filtros.add( new Filtro( "data", "<=", data_final ) );
             
@@ -72,7 +73,7 @@ public class Transacao extends Model<Transacao>
                 gasto_no_mes += transacao.getValor();    
             }
             
-            lista_gastos_por_mes.add( new Transacao(gasto_no_mes, data_referencia, ref_usuario) );
+            lista_gastos_por_mes.add( new Transacao(gasto_no_mes, data_referencia, ref_usuario, null) );
             
             data_referencia = Timestamp.valueOf(data_referencia.toLocalDateTime().minusMonths(1));
         }
@@ -121,6 +122,11 @@ public class Transacao extends Model<Transacao>
         return this.ref_usuario;
     }
     
+    public String getComentario()
+    {
+        return this.comentario.trim();
+    }
+    
     public void setId( int id )
     {
         this.id = id;
@@ -141,8 +147,22 @@ public class Transacao extends Model<Transacao>
         this.ref_usuario = ref_usuario;
     }
        
+    public void setComentario( String comentario )
+    {
+        if ( comentario != null && comentario.trim().length() > 0 ) 
+        {
+            this.comentario = comentario.trim();
+        }
+    }
+    
     public void store()
     {
         this.store( this.id );
+    }
+    
+    @Override
+    public String toString()
+    {
+        return "Transacao [id=" + id + ", valor=" + valor + ", data=" + data + ", ref_usuario=" + ref_usuario + ", comentario=" + comentario +"]";
     }
 }

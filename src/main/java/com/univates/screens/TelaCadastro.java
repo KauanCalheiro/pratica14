@@ -17,19 +17,19 @@ import com.univates.services.UsuarioService;
 
 public class TelaCadastro extends JFrame
 {
-    private JLabel cadastro = new JLabel("Cadastro");
-    private JLabel aux      = new JLabel("Já possui cadastro? Faça Login!");
-    private JLabel nome     = new JLabel("Nome: ");
-    private JLabel cpf      = new JLabel("CPF: ");
-    private JLabel salario  = new JLabel("Valor Inicial: ");
-    private JLabel senha    = new JLabel("Senha: ");
+    private JLabel cadastro     = new JLabel("Cadastro");
+    private JLabel aux          = new JLabel("Já possui cadastro? Faça Login!");
+    private JLabel nome         = new JLabel("Nome: ");
+    private JLabel cpf          = new JLabel("CPF: ");
+    private JLabel salario      = new JLabel("Valor Inicial: ");
+    private JLabel senha        = new JLabel("Senha: ");
     private JLabel senhaConf    = new JLabel("Confirme sua senha: ");
 
-    private JTextField     textoNome    = new JTextField();
-    private JTextField     textoCpf     = new JTextField();
-    private JTextField     textoSalario = new JTextField();
-    private JPasswordField textoSenha   = new JPasswordField();
-    private JPasswordField textoSenhaConf   = new JPasswordField();
+    private JTextField     textoNome      = new JTextField();
+    private JTextField     textoCpf       = new JTextField();
+    private JTextField     textoSalario   = new JTextField();
+    private JPasswordField textoSenha     = new JPasswordField();
+    private JPasswordField textoSenhaConf = new JPasswordField();
 
     private JButton botaoCad = new JButton("Cadastrar"); 
     private JButton botaoLog = new JButton("Login");
@@ -178,23 +178,26 @@ public class TelaCadastro extends JFrame
     {
         try 
         {
-            String nome = textoNome.getText();
-            String cpf = textoCpf.getText().trim().replaceAll("[^0-9]", "");;
-            String senha = String.valueOf(textoSenha.getPassword());
+            String nome          = textoNome.getText();
+            String cpf           = textoCpf.getText().trim().replaceAll("[^0-9]", "");;
+            String senha         = String.valueOf(textoSenha.getPassword());
             String senhaConfirma = String.valueOf(textoSenhaConf.getPassword());
-            String salarioText = textoSalario.getText();
+            String salarioText   = textoSalario.getText();
     
-            if (nome.isEmpty() || cpf.isEmpty() || senha.isEmpty() || salarioText.isEmpty() || senhaConfirma.isEmpty()) 
+            if (nome.isEmpty() || cpf.isEmpty() || senha.isEmpty() || senhaConfirma.isEmpty()) 
             {
-                KMessage.errorMessage("Preencha todos os campos antes de cadastrar.");
-                return;
+                throw new Exception("Preencha todos os campos antes de cadastrar.");
             }
 
-            if (!senha.equals(senhaConfirma)) {
-            KMessage.errorMessage("Senhas diferentes. Tente novamente.");
+            if ( !senha.equals(senhaConfirma) ) 
+            {
+                throw new Exception("Senhas diferentes. Tente novamente.");
             }
             
-            Double  salario = Double.parseDouble(salarioText);
+            Double salario = salarioText.isEmpty() 
+                ? 0.0 
+                : Double.parseDouble(salarioText)
+            ;
             
             Usuario usuario = new Usuario(nome, cpf, senha, salario);
             

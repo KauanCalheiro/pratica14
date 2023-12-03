@@ -213,7 +213,7 @@ public class Model<T> extends Dao
         {
             String coluna           = colunas[i];
             String setterMethodName = formatMethodName( "set", coluna );
-
+            
             Method setMethod = findSetterMethod( setterMethodName);
 
             if (setMethod != null) 

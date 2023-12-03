@@ -12,5 +12,6 @@ CREATE TABLE transacao
     id          INTEGER          NOT NULL PRIMARY KEY AUTOINCREMENT,
     valor       DOUBLE PRECISION NOT NULL,
     data        TIMESTAMP        NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    ref_usuario BIGINT           NOT NULL REFERENCES usuario (id)
+    ref_usuario BIGINT           NOT NULL REFERENCES usuario (id),
+    comentario  TEXT
 );

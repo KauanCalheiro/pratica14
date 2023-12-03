@@ -105,6 +105,8 @@ public class Usuario extends Model<Usuario>
             saldo += t.getValor();
         }
         
+        saldo += this.salario;
+        
         return saldo;
     }
 

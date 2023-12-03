@@ -52,7 +52,7 @@ public class TelaPrincipal extends JFrame
     private JLabel resumo    = new JLabel("Movimentação nos meses");
     private JLabel descricao = new JLabel("Descrição (opcional)");
     
-    private JTextField textoValor = new JTextField();
+    private JTextField textoValor     = new JTextField();
     private JTextField textoDescricao = new JTextField();
     
     private ButtonGroup grupo1  = new ButtonGroup();
@@ -65,10 +65,10 @@ public class TelaPrincipal extends JFrame
     private KCombo<String>  input_mes  = new KCombo<>( TransacaoService.getMesesParaCombo(), false );
     private KCombo<Integer> input_dia  = new KCombo<>( true );
     
-    private JButton botaoConf = new JButton("Confirma");
-    private JButton botaoBaixarDados = new JButton("Baixar dados");
+    private JButton botaoConf          = new JButton("Confirma");
+    private JButton botaoBaixarDados   = new JButton("Baixar dados");
     private JButton botaoBaixarModelos = new JButton("Baixar modelo");
-    private JButton botaoImportDados = new JButton("Importar dados");
+    private JButton botaoImportDados   = new JButton("Importar dados");
 
     private Font fonte1 = new Font("Arial", Font.PLAIN, 18);
     private Font fonte2 = new Font("Arial", Font.BOLD, 25);
@@ -353,16 +353,17 @@ public class TelaPrincipal extends JFrame
         {
             boolean is_positivo = radio1.isSelected();
             double  valor       = TransacaoService.validaValorEntrada( textoValor.getText(), is_positivo ) ;
+            String  descricao   = textoDescricao.getText();
             
             Timestamp data      = checkbox_data_manual.isSelected() 
             ? Timestamp.valueOf(LocalDateTime.of( input_ano.getValue(), input_mes.getKey(), input_dia.getValue(), 0, 0 ))
             : Timestamp.valueOf( LocalDateTime.now());
             
-            Transacao transacao = new Transacao( valor , data , this.usuario );
+            Transacao transacao = new Transacao( valor , data , this.usuario, descricao );
             
             transacao.store();
             
-            KMessage.infoMessage( UsuarioService.getMensagem(is_positivo, valor ) );
+            KMessage.infoMessage( UsuarioService.getMensagem( is_positivo, valor ) );
             this.updateFields();
         } 
         catch (Exception e) 
@@ -370,7 +371,7 @@ public class TelaPrincipal extends JFrame
             KMessage.errorMessage( e.getMessage() );
         }
     }
-    
+
     public void setUsuario(Usuario usuario)
     {
         this.usuario = usuario;
@@ -408,8 +409,10 @@ public class TelaPrincipal extends JFrame
             String dataFormatada = transacao.getDataFormatada( "dd/MM/yyyy" );
             double valor         = transacao.getValor();
             int    id            = transacao.getId();
+            String descricao     = transacao.getComentario();
+            System.out.println( transacao );
             
-            this.modelo_tabela_ultimas_transacoes.addRow(new Object[]{ id, dataFormatada , valor });
+            this.modelo_tabela_ultimas_transacoes.addRow(new Object[]{ id, dataFormatada , valor, descricao });
         }
     }
     

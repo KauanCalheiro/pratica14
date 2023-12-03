@@ -13,6 +13,7 @@ CREATE TABLE transacao
     valor       DOUBLE PRECISION NOT NULL,
     data        TIMESTAMP        NOT NULL DEFAULT NOW(),
     ref_usuario BIGINT           NOT NULL,
+    comentario  TEXT,
     
     CONSTRAINT transacao_ref_usuario_foreign FOREIGN KEY (ref_usuario) REFERENCES usuario (id)
 );
