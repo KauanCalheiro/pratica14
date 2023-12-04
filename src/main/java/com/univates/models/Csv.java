@@ -47,12 +47,42 @@ public class Csv extends Arquivo
     public ArrayList<String> formataListaItens( ArrayList<String> lista_itens )
     {
         String linha = lista_itens.stream()
-            .map(item -> "\"" + item + "\"")
+            .map(item -> addCsvEscape(item))
             .collect(Collectors.joining(","));
             
         ArrayList<String> lista = new ArrayList<>();
         lista.add(linha);
             
         return lista;
+    }
+    
+    /**
+     * Formata uma string para ser utilizada em um arquivo CSV, adicionando aspas duplas ao redor do valor.
+     * 
+     * @param item a string a ser formatada
+     * @return a string formatada com aspas duplas ao redor do valor
+     */
+    public static String addCsvEscape( String item )
+    {
+        return "\"" + item + "\"";
+    }
+    
+    public static String removeCsvEscape( String item )
+    {
+        return item.replaceAll("\"", "");
+    }
+    
+    public static ArrayList<String> getItensLinha( String linha )
+    {
+        ArrayList<String> itens = new ArrayList<>();
+        
+        String[] colunas = linha.split(",(?=([^\"]*\"[^\"]*\")*[^\"]*$)");
+        
+        for (String coluna : colunas) 
+        {
+            itens.add( removeCsvEscape( coluna ) );
+        }
+        
+        return itens;
     }
 }

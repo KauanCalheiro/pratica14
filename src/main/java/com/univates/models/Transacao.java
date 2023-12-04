@@ -124,7 +124,7 @@ public class Transacao extends Model<Transacao>
     
     public String getComentario()
     {
-        return this.comentario.trim();
+        return this.comentario == null ? "" : this.comentario.trim();
     }
     
     public void setId( int id )

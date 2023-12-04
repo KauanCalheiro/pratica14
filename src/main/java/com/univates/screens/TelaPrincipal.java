@@ -410,7 +410,6 @@ public class TelaPrincipal extends JFrame
             double valor         = transacao.getValor();
             int    id            = transacao.getId();
             String descricao     = transacao.getComentario();
-            System.out.println( transacao );
             
             this.modelo_tabela_ultimas_transacoes.addRow(new Object[]{ id, dataFormatada , valor, descricao });
         }

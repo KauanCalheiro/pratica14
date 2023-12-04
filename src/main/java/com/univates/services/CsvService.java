@@ -19,6 +19,7 @@ public class CsvService
             
         colunas.add("Data");
         colunas.add("Valor");
+        colunas.add("Descrição");
             
         csv.escreveLinha( colunas, false );
 
@@ -39,6 +40,7 @@ public class CsvService
             
             linha.add( String.valueOf( transacao.getDataFormatada( "dd/MM/yyyy" ) ) );
             linha.add( String.valueOf( transacao.getValor() ) );
+            linha.add( transacao.getComentario() );
             
             csv.escreveLinha( linha, true );
         }
@@ -70,10 +72,11 @@ public class CsvService
             
             for (String linha : linhas_csv) 
             {
-                String[] colunas = linha.split(",");
+                ArrayList<String> itens = Csv.getItensLinha(linha);
                 
-                String col_date  = colunas[0].replace("\"", "");
-                String col_value = colunas[1].replace("\"", "");
+                String col_date        = itens.get(0);
+                String col_value       = itens.get(1);
+                String col_description = itens.get(2);
                 
                 int day   = Integer.parseInt( col_date.split("/")[0] );
                 int month = Integer.parseInt( col_date.split("/")[1] );
@@ -81,7 +84,7 @@ public class CsvService
                 
                 Timestamp date = Timestamp.valueOf( LocalDateTime.of(year, month, day, 0, 0) );
                 
-                Transacao transacao = new Transacao( Double.parseDouble( col_value ), date, user, null );
+                Transacao transacao = new Transacao( Double.parseDouble( col_value ), date, user, col_description );
                 
                 transacao.store();
             }
@@ -111,6 +114,8 @@ public class CsvService
                 break;
             case 1:
                 validateValue( input );
+                break;
+            case 2:
                 break;
             default:
                 throw new Exception("O arquivo CSV possui um formato inválido.");
@@ -152,23 +157,18 @@ public class CsvService
         }
     }
     
-    private static void validateHeader( String header ) throws Exception
+    private static void validateHeader(String header) throws Exception 
     {
-        String[] itens = header.split(",");
-        
-        if (itens.length != 2) 
+        ArrayList<String> itens = Csv.getItensLinha(header);
+
+        if  (
+                    itens.size() != 3                                               
+                || !itens.get(0).equalsIgnoreCase("Data")      
+                || !itens.get(1).equalsIgnoreCase("Valor")     
+                || !itens.get(2).equalsIgnoreCase("Descrição")
+            ) 
         {
-            throw new Exception("O arquivo CSV não possui um cabeçalho válido.");
-        }
-        
-        if ( !itens[0].equalsIgnoreCase("\"Data\"") ) 
-        {
-            throw new Exception("O arquivo CSV não possui um cabeçalho válido.");
-        }
-        
-        if ( !itens[1].equalsIgnoreCase("\"Valor\"") ) 
-        {
-            throw new Exception("O arquivo CSV não possui um cabeçalho válido.");
+            throw new Exception("O arquivo CSV não possui um cabeçalho válido.\r\nBaixe o modelo de CSV disponível e preencha-o com os dados desejados.");
         }
     }
     
@@ -178,11 +178,11 @@ public class CsvService
             
         for (String linha : linhas_csv) 
         {
-            String[] colunas = linha.split(",");
+            ArrayList<String> itens = Csv.getItensLinha(linha);
             
-            for (int i = 0; i < colunas.length; i++) 
+            for (int i = 0; i < itens.size(); i++) 
             {
-                validateInput( colunas[i].replace("\"", ""), i );
+                validateInput( itens.get(i), i );    
             }
         }
     }

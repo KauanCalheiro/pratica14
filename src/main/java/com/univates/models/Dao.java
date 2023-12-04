@@ -5,6 +5,9 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.Properties;
+
+import com.univates.components.KMessage;
+
 import java.io.FileInputStream;
 
 
@@ -28,8 +31,7 @@ public class Dao
         }
         catch (Exception e) 
         {
-            System.out.println("Erro ao conectar com o banco de dados.");
-            System.out.println(e.getMessage());
+            KMessage.errorMessage("Erro ao conectar com o banco de dados.\r\n\r\n" + e.getMessage());
         }
     }
 
