@@ -5,8 +5,10 @@ import com.univates.models.Transacao;
 import com.univates.models.Usuario;
 
 import java.sql.Timestamp;
+import java.text.NumberFormat;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Locale;
 
 
 public class CsvService 
@@ -149,7 +151,7 @@ public class CsvService
     {
         try 
         {
-            Double.parseDouble( value );
+            formatValue( value );
         } 
         catch (Exception e) 
         {
@@ -160,16 +162,9 @@ public class CsvService
     private static void validateHeader(String header) throws Exception 
     {
         ArrayList<String> itens = Csv.getItensLinha(header);
-
-        System.out.println( itens.size() != 3 );
-        System.out.println( !itens.get(0).equalsIgnoreCase("Data") );
-        System.out.println( !itens.get(1).equalsIgnoreCase("Valor") );
-        System.out.println( !itens.get(2).equalsIgnoreCase("Descrição") );
+        
         if  (
                     itens.size() != 3                                               
-                || !itens.get(0).equalsIgnoreCase("Data")      
-                || !itens.get(1).equalsIgnoreCase("Valor")     
-                || !itens.get(2).equalsIgnoreCase("Descrição")
             ) 
         {
             throw new Exception("O arquivo CSV não possui um cabeçalho válido.\r\nBaixe o modelo de CSV disponível e preencha-o com os dados desejados.");
@@ -191,15 +186,11 @@ public class CsvService
         }
     }
     
-    private static double formatValue( String value )
+    private static double formatValue( String value ) throws Exception
     {
-        try
-        {
-            return Double.parseDouble( value );
-        }
-        catch( Exception e )
-        {
-            return Double.parseDouble( value.replace(",", ".") );
-        }
+        NumberFormat format = NumberFormat.getInstance(Locale.FRANCE);
+        Number number = format.parse(value);
+        
+        return number.doubleValue();
     }
 }
