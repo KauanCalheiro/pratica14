@@ -75,8 +75,8 @@ public class CsvService
                 ArrayList<String> itens = Csv.getItensLinha(linha);
                 
                 String col_date        = itens.get(0);
-                String col_value       = itens.get(1);
-                String col_description = itens.get(2);
+                double col_value       = CsvService.formatValue(itens.get(1));
+                String col_description = itens.size() == 3 ? itens.get(2) : "";
                 
                 int day   = Integer.parseInt( col_date.split("/")[0] );
                 int month = Integer.parseInt( col_date.split("/")[1] );
@@ -84,7 +84,7 @@ public class CsvService
                 
                 Timestamp date = Timestamp.valueOf( LocalDateTime.of(year, month, day, 0, 0) );
                 
-                Transacao transacao = new Transacao( Double.parseDouble( col_value ), date, user, col_description );
+                Transacao transacao = new Transacao( col_value , date, user, col_description );
                 
                 transacao.store();
             }
@@ -161,6 +161,10 @@ public class CsvService
     {
         ArrayList<String> itens = Csv.getItensLinha(header);
 
+        System.out.println( itens.size() != 3 );
+        System.out.println( !itens.get(0).equalsIgnoreCase("Data") );
+        System.out.println( !itens.get(1).equalsIgnoreCase("Valor") );
+        System.out.println( !itens.get(2).equalsIgnoreCase("Descrição") );
         if  (
                     itens.size() != 3                                               
                 || !itens.get(0).equalsIgnoreCase("Data")      
@@ -184,6 +188,18 @@ public class CsvService
             {
                 validateInput( itens.get(i), i );    
             }
+        }
+    }
+    
+    private static double formatValue( String value )
+    {
+        try
+        {
+            return Double.parseDouble( value );
+        }
+        catch( Exception e )
+        {
+            return Double.parseDouble( value.replace(",", ".") );
         }
     }
 }

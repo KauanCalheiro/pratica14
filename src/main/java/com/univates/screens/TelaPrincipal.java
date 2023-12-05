@@ -384,7 +384,7 @@ public class TelaPrincipal extends JFrame
         this.nome.setText( usuario.getNome() );
         this.nome.setSize( this.nome.getPreferredSize() );
         
-        this.valor.setText( "R$ " + usuario.getSaldo() );
+        this.valor.setText( "R$ " + String.format( "%.2f", usuario.getSaldo() ) );
         this.valor.setSize( this.valor.getPreferredSize() );
         
         this.textoValor.setText("");
